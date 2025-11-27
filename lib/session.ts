@@ -1,22 +1,30 @@
-// lib/session.ts
+"use server";
+
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changeme";
 
 export async function setUserSession(email: string) {
+  console.log("email", email);
+
   const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "8h" });
-  (await cookies()).set("auth_token", token, {
+  (await cookies()).set("mes_auth_token", token, {
     httpOnly: true,
     path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });
+
+  console.log("cookie set ok");
 }
 
 export async function getCurrentUser() {
-  const token = (await cookies()).get("auth_token")?.value;
-  if (!token) return null;
+  const token = (await cookies()).get("mes_auth_token")?.value;
+  if (!token) {
+    return null;
+  }
+
   try {
     const payload = jwt.verify(token, JWT_SECRET) as { email: string };
     return payload;
@@ -26,5 +34,5 @@ export async function getCurrentUser() {
 }
 
 export async function clearSession() {
-  (await cookies()).set("auth_token", "", { path: "/", maxAge: 0 });
+  (await cookies()).set("mes_auth_token", "", { path: "/", maxAge: 0 });
 }

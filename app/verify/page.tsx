@@ -21,7 +21,7 @@ export default async function VerifyPage({ searchParams }: VerifyPageProps) {
     const token = formData.get("token");
     if (typeof token !== "string") throw new Error("Invalid token");
 
-    const { rows } = await query<User>(
+    const rows = await query<User>(
       "SELECT totp_secret FROM users WHERE email = $1",
       [email]
     );
@@ -40,7 +40,7 @@ export default async function VerifyPage({ searchParams }: VerifyPageProps) {
       throw new Error("Invalid code");
     }
 
-    setUserSession(email);
+    await setUserSession(email);
     redirect("/mes");
   }
 
