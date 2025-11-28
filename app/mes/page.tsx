@@ -10,9 +10,9 @@ export default async function MesPage() {
     redirect("/");
   }
   return (
-    <div>
-      <h1>Welcome, {user.email}!</h1>
-      <p>This is your protected messages page.</p>
+    <div className="flex flex-col justify-center items-center h-screen">
+      <h1 className="text-4xl">Benvenuto {user.email}</h1>
+      <h2 className="text-2xl">MES area riservata</h2>
     </div>
   );
 }
