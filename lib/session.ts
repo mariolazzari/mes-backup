@@ -1,13 +1,10 @@
 "use server";
-
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changeme";
 
 export async function setUserSession(email: string) {
-  console.log("email", email);
-
   const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "8h" });
   (await cookies()).set("mes_auth_token", token, {
     httpOnly: true,
@@ -15,8 +12,6 @@ export async function setUserSession(email: string) {
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });
-
-  console.log("cookie set ok");
 }
 
 export async function getCurrentUser() {

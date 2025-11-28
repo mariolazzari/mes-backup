@@ -1,9 +1,4 @@
-import { query } from "@/lib/db";
-import { User } from "@/types/User";
-import speakeasy from "speakeasy";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-import { setUserSession } from "@/lib/session";
 import {
   CardContent,
   CardDescription,
@@ -18,6 +13,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { verify } from "@/actions/user";
 
 type VerifyPageProps = {
   searchParams: Promise<{
@@ -26,39 +22,8 @@ type VerifyPageProps = {
   }>;
 };
 
-export default async function VerifyPage({ searchParams }: VerifyPageProps) {
+async function VerifyPage({ searchParams }: VerifyPageProps) {
   const { email, qr } = await searchParams;
-
-  // Server Action
-  async function verify(formData: FormData) {
-    "use server";
-    const token = formData.get("token");
-    if (typeof token !== "string") throw new Error("Invalid token");
-
-    const rows = await query<User>(
-      "SELECT totp_secret FROM users WHERE email = $1",
-      [email]
-    );
-    if (rows.length === 0) {
-      throw new Error("User not found");
-    }
-
-    const secret = rows[0].totp_secret;
-
-    const valid = speakeasy.totp.verify({
-      secret,
-      encoding: "base32",
-      token,
-      window: 1,
-    });
-
-    if (!valid) {
-      throw new Error("Invalid code");
-    }
-
-    await setUserSession(email);
-    redirect("/mes");
-  }
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -69,7 +34,7 @@ export default async function VerifyPage({ searchParams }: VerifyPageProps) {
             Utilizza questo QR code in Google Authenticator
           </CardDescription>
         </CardHeader>
-        <CardContent className="w-[400px] my-4 flex flex-col items-center">
+        <CardContent className="w-[380px] my-4 flex flex-col items-center">
           <Image
             className="mx-auto"
             src={qr}
@@ -93,9 +58,12 @@ export default async function VerifyPage({ searchParams }: VerifyPageProps) {
           </InputOTP>
         </CardContent>
         <CardFooter className="flex justify-center">
+          <input type="hidden" name="email" value={email} />
           <Button className="cursor-pointer">Verifica</Button>
         </CardFooter>
       </form>
     </div>
   );
 }
+
+export default VerifyPage;

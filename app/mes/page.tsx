@@ -1,14 +1,12 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
-export default async function MesPage() {
+async function MesPage() {
   const user = await getCurrentUser();
-
-  console.log("user", user);
-
   if (!user) {
     redirect("/");
   }
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <h1 className="text-4xl">Benvenuto {user.email}</h1>
@@ -16,3 +14,5 @@ export default async function MesPage() {
     </div>
   );
 }
+
+export default MesPage;

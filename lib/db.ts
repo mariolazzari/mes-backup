@@ -18,8 +18,8 @@ export async function query<T extends QueryResultRow>(
   try {
     const { rows } = await pool.query<T>(text, params);
     return rows;
-  } catch (err) {
-    console.error("Database query error:", err, { text, params });
-    throw err; // rethrow after logging
+  } catch (ex) {
+    console.error("Database query error:", ex, { text, params });
+    throw ex;
   }
 }
