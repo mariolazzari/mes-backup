@@ -1,4 +1,4 @@
-type SearchParams = Record<string, string | string[] | undefined>;
+type SearchParams = Record<string, string | string[]>;
 
 export type PageProps<TParams extends SearchParams> = Partial<{
   searchParams: Promise<TParams>;
