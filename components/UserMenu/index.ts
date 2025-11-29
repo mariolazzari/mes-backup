@@ -1,5 +1,7 @@
 import { Payload } from "@/types/Payload";
 
-export type UserDialogProps = {
+export type UserMenuProps = {
   payload: Payload;
 };
+
+export * from "./UserMenu";

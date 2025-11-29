@@ -1,14 +1,12 @@
 import { getCurrentUser } from "@/lib/session";
-import { redirect } from "next/navigation";
+import { UserMenu } from "@/components/UserMenu";
 
-export async function index() {
+export async function AppBar() {
   const user = await getCurrentUser();
-  if (!user) {
-    redirect("/");
-  }
 
-  const tokens = user.email.split("@")[0].split(".");
-  const initials = tokens.map(t => t.charAt(0).toUpperCase()).join("");
-
-  return <div className="h-12"></div>;
+  return (
+    <div className="h-[50px] flex justify-end items-center px-2 w-full bg-primary">
+      <UserMenu payload={user} />
+    </div>
+  );
 }

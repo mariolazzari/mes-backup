@@ -32,4 +32,5 @@ export async function getCurrentUser(): Promise<Payload> {
 
 export async function clearSession(): Promise<void> {
   (await cookies()).set("mes_auth_token", "", { path: "/", maxAge: 0 });
+  redirect("/");
 }
