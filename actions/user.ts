@@ -31,7 +31,7 @@ export async function register(formData: FormData) {
 
     secretBase32 = secret.base32;
 
-    // Salva l'utente nel DB solo la prima volta
+    // insert user in DB first time only
     await query("INSERT INTO users (email, totp_secret) VALUES ($1, $2)", [
       email,
       secretBase32,
@@ -41,14 +41,14 @@ export async function register(formData: FormData) {
       throw new Error("Failed to generate otpauth_url for TOTP");
     qrCodeDataUrl = await QRCode.toDataURL(secret.otpauth_url);
   } else {
-    // 🔹 Utente esistente → riusa il secret esistente
+    // user already registred: use current token
     secretBase32 = rows[0].totp_secret;
 
     const otpauthUrl = `otpauth://totp/MES:${email}?secret=${secretBase32}&issuer=MES`;
     qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl);
   }
 
-  // 2️⃣ Redirect alla pagina di verifica con QR code
+  // login redirection
   redirect(
     `/verify?email=${encodeURIComponent(email)}&qr=${encodeURIComponent(
       qrCodeDataUrl

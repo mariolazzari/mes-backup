@@ -15,26 +15,24 @@ type GlobalErrorProps = {
 };
 
 function GlobalError({ error, reset }: GlobalErrorProps) {
+  const { name, message, stack } = error;
+
   return (
-    <html>
-      <body>
-        <div className="flex w-full h-screen justify-center items-center">
-          <Card className="p-8 shadow-md rounded-md">
-            <CardHeader>
-              <CardTitle>{error.name}</CardTitle>
-              <CardDescription>Qualcosa è andato storto</CardDescription>
-            </CardHeader>
-            <CardContent className="max-w-xl">
-              <p className="text-destructive">{error.message}</p>
-              <p className="text-xs">{error.stack}</p>
-            </CardContent>
-            <CardFooter className="mx-auto">
-              <Button onClick={reset}>Riprova</Button>
-            </CardFooter>
-          </Card>
-        </div>
-      </body>
-    </html>
+    <div className="flex w-full h-screen justify-center items-center">
+      <Card className="p-8 shadow-md rounded-md">
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+          <CardDescription>Qualcosa è andato storto</CardDescription>
+        </CardHeader>
+        <CardContent className="max-w-xl">
+          <p className="text-destructive">{message}</p>
+          <p className="text-xs">{stack}</p>
+        </CardContent>
+        <CardFooter className="mx-auto">
+          <Button onClick={reset}>Riprova</Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
 
