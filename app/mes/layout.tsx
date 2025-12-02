@@ -5,7 +5,7 @@ import { inter } from "../fonts";
 import { AppBar } from "@/components/AppBar";
 
 export const metadata: Metadata = {
-  title: "MES - MES Backup",
+  title: "MES - ICC",
   description: "Created by Mario Lazzari",
 };
 

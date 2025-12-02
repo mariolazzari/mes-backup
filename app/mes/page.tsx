@@ -1,15 +1,9 @@
-import { getCurrentUser } from "@/lib/session";
+import { MesBar } from "@/components/MesBar";
 
 async function MesPage() {
-  const user = await getCurrentUser();
-
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <h1 className="text-4xl">MES area riservata</h1>
-      <h2 className="text-2xl">
-        Benvenuto
-        <span className="ml-1 font-semibold text-primary">{user.email}</span>
-      </h2>
+    <div className="flex flex-col items-center h-full p-4">
+      <MesBar />
     </div>
   );
 }

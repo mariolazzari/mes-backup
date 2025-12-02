@@ -40,7 +40,8 @@ CREATE TABLE um (
 | HU_Comp           | Char(20)     |                                               |
 | Flag_HU_Comp      | Char(1)      | Y/N default Se Y significa che la HU è finita |
 | Um_CONS           | CHAR(4)      | LISTA UM SELEZIONABIL.                        |
-| Qta_cons          | Number(15,3) |
+| Qta_cons          | Number(15,3) |                                               |
+| hold              | Boolean      | cancellazione logica                          |
 
 ```sql
 CREATE TABLE prod (
@@ -60,7 +61,8 @@ CREATE TABLE prod (
     flag_hu_comp      CHAR(1) DEFAULT 'N'
                       CHECK (flag_hu_comp IN ('Y','N')),
     um_cons           CHAR(4) REFERENCES um(cod),
-    qta_cons          NUMERIC(15,3)
+    qta_cons          NUMERIC(15,3),
+    hold              BOOLEAN DEFAULT(false)
 );
 ```
 

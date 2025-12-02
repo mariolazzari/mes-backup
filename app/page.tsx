@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Field, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 function HomePage() {
   return (
@@ -17,15 +18,15 @@ function HomePage() {
       <Card className="shadow-md">
         <form action={register}>
           <CardHeader>
-            <CardTitle className="text-center mb-4">MES Login</CardTitle>
-            <CardDescription>
-              Inserisci qui la tua email per effettuare il login
-            </CardDescription>
+            <CardTitle className="mx-auto">
+              <Image src="/logo-icc.png" width={150} height={150} alt="Logo" />
+            </CardTitle>
+            <CardDescription className="text-3xl my-4">Login</CardDescription>
           </CardHeader>
           <CardContent className="w-[380px] h-20 my-4">
             <FieldSet>
               <Field>
-                <FieldLabel htmlFor="email">Mail utente</FieldLabel>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   className="focus:bg-primary-foreground"
                   id="email"
@@ -33,7 +34,6 @@ function HomePage() {
                   placeholder="Indirizzo email..."
                   type="email"
                 />
-                <FieldError></FieldError>
               </Field>
             </FieldSet>
           </CardContent>
