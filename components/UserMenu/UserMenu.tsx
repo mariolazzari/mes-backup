@@ -25,9 +25,9 @@ export function UserMenu({ payload }: UserMenuProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="rounded-full bg-secondary text-primary font-semibold cursor-pointer"
+          className="rounded-full font-semibold cursor-pointer"
           size="icon-sm"
-          variant="ghost"
+          variant="outline"
         >
           {renderInitials()}
         </Button>
