@@ -1,5 +1,7 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
+import Link from "next/link";
+import { Home } from "lucide-react";
+import { BiMath } from "react-icons/bi";
+import { FaRegTrashCan } from "react-icons/fa6";
 import {
   Sidebar,
   SidebarContent,
@@ -10,33 +12,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "MES",
+    url: "/mes",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Causali scarto",
+    url: "/mes/scraps",
+    icon: FaRegTrashCan,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Unità di misura",
+    url: "/mes/um",
+    icon: BiMath,
   },
 ];
 
@@ -44,17 +37,26 @@ export function SideBar() {
   return (
     <Sidebar>
       <SidebarContent>
+        <div className="flex justify-center p-8">
+          <Image
+            src="/logo-icc.png"
+            width={100}
+            height={100}
+            alt="ICC logo"
+            priority
+          />
+        </div>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>MES</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
