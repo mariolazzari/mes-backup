@@ -2,7 +2,7 @@
 import { Um } from "@/types/Um";
 import { ColumnDef } from "@tanstack/react-table";
 import { UmDialog } from "./UmDialog";
-import { DataTable } from "../DataTable";
+import { ColumnHeader, DataTable } from "../DataTable";
 import { UmDataTableProps } from ".";
 
 export const UmDataTable = ({ ums }: UmDataTableProps) => {
@@ -14,17 +14,15 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
     },
     {
       accessorKey: "cod",
-      header: "Codice",
+      header: ({ column }) => <ColumnHeader column={column} title="Codice" />,
     },
     {
       accessorKey: "descrizione",
-      header: "Descrizione",
+      header: ({ column }) => (
+        <ColumnHeader column={column} title="Descrizione" />
+      ),
     },
   ];
 
-  return (
-    <div>
-      <DataTable columns={columns} data={ums} add={<UmDialog />} />
-    </div>
-  );
+  return <DataTable columns={columns} data={ums} add={<UmDialog />} />;
 };

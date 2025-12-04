@@ -8,4 +8,5 @@ export type DataTableProps<T> = {
   add: ReactNode;
 }>;
 
+export * from "./ColumnHeader";
 export * from "./DataTable";
