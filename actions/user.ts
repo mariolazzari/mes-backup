@@ -8,8 +8,6 @@ import { redirect } from "next/navigation";
 
 // register user OTP verification
 export async function register(formData: FormData) {
-  "use server";
-
   const email = formData.get("email");
   if (typeof email !== "string") throw new Error("Invalid email");
 
