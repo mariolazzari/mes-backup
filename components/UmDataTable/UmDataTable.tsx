@@ -4,13 +4,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import { UmDialog } from "./UmDialog";
 import { ColumnHeader, DataTable } from "../DataTable";
 import { UmDataTableProps } from ".";
+import { UmDelete } from "./UmDelete";
 
 export const UmDataTable = ({ ums }: UmDataTableProps) => {
   const columns: ColumnDef<Um>[] = [
     {
       accessorKey: "actions",
       header: "",
-      cell: ({ row }) => <UmDialog um={row.original} />,
+      cell: ({ row }) => (
+        <div className="flex items-center gap-1">
+          <UmDialog um={row.original} />
+          <UmDelete um={row.original} />
+        </div>
+      ),
     },
     {
       accessorKey: "cod",
