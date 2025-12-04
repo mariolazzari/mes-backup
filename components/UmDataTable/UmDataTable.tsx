@@ -24,7 +24,7 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
 
   return (
     <div>
-      <DataTable columns={columns} data={ums} />;
+      <DataTable columns={columns} data={ums} add={<UmDialog />} />
     </div>
   );
 };

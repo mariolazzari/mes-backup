@@ -19,6 +19,12 @@ CREATE TABLE um (
     cod CHAR(4) PRIMARY KEY,
     descrizione TEXT
 );
+
+INSERT INTO public.um (cod, descrizione) VALUES
+('PZ', 'Pezzi'),
+('KG', 'Kilogrammi'),
+('LT', 'Litri'),
+('MT', 'Metri');
 ```
 
 ### Registrazioni
