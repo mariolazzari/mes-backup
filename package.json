@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start --port 4040",
     "lint": "eslint",
-    "prisma:migrate": "prisma migrate dev"
+    "clean": "rm -rf node_modules & rm -rf .next"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
