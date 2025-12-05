@@ -3,7 +3,6 @@ import { saveUm } from "@/actions/um";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,13 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Um } from "@/types/Um";
 import { Edit, Plus } from "lucide-react";
-import { useFormState, useFormStatus } from "react-dom";
-
-type UmDialogProps = {
-  um?: Um;
-};
+import { useFormState } from "react-dom";
+import { SaveButton } from "../Buttons/SaveButton";
+import { CloseButton } from "../Buttons/CloseButton";
+import { UmDialogProps } from ".";
 
 export function UmDialog({ um }: UmDialogProps) {
   const initialState = {
@@ -29,7 +26,11 @@ export function UmDialog({ um }: UmDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="p-2 cursor-pointer" variant="outline" size="icon-lg">
+        <Button
+          className="p-2 cursor-pointer text-primary"
+          variant="outline"
+          size="icon-lg"
+        >
           {um ? <Edit /> : <Plus />}
         </Button>
       </DialogTrigger>
@@ -43,7 +44,6 @@ export function UmDialog({ um }: UmDialogProps) {
             </DialogDescription>
           </DialogHeader>
 
-          {/* CAMPO COD */}
           <div className="mt-4">
             <label className="text-sm">Cod</label>
             <input
@@ -52,11 +52,10 @@ export function UmDialog({ um }: UmDialogProps) {
               className="border p-2 w-full rounded"
             />
             {state.errors.cod && (
-              <p className="text-red-500 text-sm">{state.errors.cod[0]}</p>
+              <p className="text-destructive text-sm">{state.errors.cod[0]}</p>
             )}
           </div>
 
-          {/* CAMPO DESCRIZIONE */}
           <div className="mt-4">
             <label className="text-sm">Descrizione</label>
             <input
@@ -65,29 +64,18 @@ export function UmDialog({ um }: UmDialogProps) {
               className="border p-2 w-full rounded"
             />
             {state.errors.descrizione && (
-              <p className="text-red-500 text-sm">
+              <p className="text-destructive text-sm">
                 {state.errors.descrizione[0]}
               </p>
             )}
           </div>
 
           <DialogFooter className="mt-6">
-            <DialogClose asChild>
-              <Button variant="outline">Chiudi</Button>
-            </DialogClose>
-            <SubmitButton />
+            <CloseButton />
+            <SaveButton />
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? "Salvando..." : "Salva"}
-    </Button>
   );
 }

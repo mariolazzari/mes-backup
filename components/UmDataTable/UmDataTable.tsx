@@ -30,5 +30,13 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
     },
   ];
 
-  return <DataTable columns={columns} data={ums} add={<UmDialog />} />;
+  return (
+    <DataTable
+      columns={columns}
+      data={ums}
+      add={<UmDialog />}
+      searchField="descrizione"
+      searchPlaceholder="Cerca descrizione..."
+    />
+  );
 };

@@ -1,0 +1,14 @@
+"use client";
+import { useFormStatus } from "react-dom";
+import { Button } from "../ui/button";
+import { RefreshCcw, Save } from "lucide-react";
+
+export function SaveButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button className="w-28 cursor-pointer" type="submit" disabled={pending}>
+      {pending ? <RefreshCcw className="animate-spin" /> : <Save />} Salva
+    </Button>
+  );
+}

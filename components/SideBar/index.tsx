@@ -17,7 +17,7 @@ import Image from "next/image";
 // Menu items.
 const items = [
   {
-    title: "MES",
+    title: "Produzione",
     url: "/mes",
     icon: Home,
   },

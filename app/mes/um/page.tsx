@@ -1,6 +1,8 @@
 import { getUms } from "@/actions/um";
 import { UmDataTable } from "@/components/UmDataTable";
 
+export const dynamic = "force-dynamic";
+
 async function UmPage() {
   const ums = await getUms();
 

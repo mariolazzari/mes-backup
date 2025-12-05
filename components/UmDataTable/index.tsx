@@ -8,4 +8,8 @@ export type UmDialogProps = {
   um?: Um;
 };
 
+export type UmDeleteProps = {
+  um: Um;
+};
+
 export * from "./UmDataTable";

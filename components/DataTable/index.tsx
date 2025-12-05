@@ -6,6 +6,8 @@ export type DataTableProps<T> = {
   data: T[];
 } & Partial<{
   add: ReactNode;
+  searchField: keyof T;
+  searchPlaceholder: string;
 }>;
 
 export * from "./ColumnHeader";

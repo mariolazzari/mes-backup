@@ -31,7 +31,13 @@ import {
 import { DataTableProps } from ".";
 import { Pagination } from "./Pagination";
 
-export function DataTable<T>({ columns, data, add }: DataTableProps<T>) {
+export function DataTable<T>({
+  columns,
+  data,
+  add,
+  searchField,
+  searchPlaceholder = "Cerca...",
+}: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -59,16 +65,24 @@ export function DataTable<T>({ columns, data, add }: DataTableProps<T>) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         {add}
-        <Input
-          placeholder="Cerca..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={event =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        {searchField && (
+          <Input
+            placeholder={searchPlaceholder}
+            value={
+              (table
+                .getColumn(searchField as string)
+                ?.getFilterValue() as string) ?? ""
+            }
+            onChange={e =>
+              table
+                .getColumn(searchField as string)
+                ?.setFilterValue(e.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
