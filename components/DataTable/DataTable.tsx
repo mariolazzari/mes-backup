@@ -11,15 +11,6 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { DataTableProps } from ".";
 import { Pagination } from "./Pagination";
+import { Header } from "./Header";
 
 export function DataTable<T>({
   columns,
@@ -65,49 +57,12 @@ export function DataTable<T>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 gap-2">
-        {add}
-        {searchField && (
-          <Input
-            placeholder={searchPlaceholder}
-            value={
-              (table
-                .getColumn(searchField as string)
-                ?.getFilterValue() as string) ?? ""
-            }
-            onChange={e =>
-              table
-                .getColumn(searchField as string)
-                ?.setFilterValue(e.target.value)
-            }
-            className="max-w-sm"
-          />
-        )}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Colonne <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(column => column.getCanHide())
-              .map(column => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={value => column.toggleVisibility(!!value)}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <Header
+        table={table}
+        add={add}
+        searchField={searchField}
+        searchPlaceholder={searchPlaceholder}
+      />
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>

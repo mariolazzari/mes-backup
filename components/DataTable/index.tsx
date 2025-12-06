@@ -1,14 +1,17 @@
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Table } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
 export type DataTableProps<T> = {
   columns: ColumnDef<T>[];
   data: T[];
-} & Partial<{
+} & Partial<HeaderProps<T>>;
+
+export type HeaderProps<T> = {
+  table: Table<T>;
   add: ReactNode;
-  searchField: keyof T;
-  searchPlaceholder: string;
-}>;
+  searchField?: keyof T;
+  searchPlaceholder?: string;
+};
 
 export * from "./ColumnHeader";
 export * from "./DataTable";

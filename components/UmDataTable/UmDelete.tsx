@@ -1,5 +1,4 @@
 "use client";
-import { useFormState } from "react-dom";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,10 +15,11 @@ import { initialActionState } from "@/types/ActionState";
 import { UmDeleteProps } from ".";
 import { DeleteButton } from "../Buttons/DeleteButton";
 import { CloseButton } from "../Buttons/CloseButton";
+import { useActionState } from "react";
 
 export function UmDelete({ um }: UmDeleteProps) {
   const { cod, descrizione } = um;
-  const [state, formAction] = useFormState(deleteUm, initialActionState);
+  const [state, formAction] = useActionState(deleteUm, initialActionState);
 
   return (
     <Dialog>

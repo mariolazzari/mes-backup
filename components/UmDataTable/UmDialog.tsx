@@ -11,17 +11,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit, Plus } from "lucide-react";
-import { useFormState } from "react-dom";
 import { SaveButton } from "../Buttons/SaveButton";
 import { CloseButton } from "../Buttons/CloseButton";
 import { UmDialogProps } from ".";
+import { useActionState, useEffect } from "react";
 
 export function UmDialog({ um }: UmDialogProps) {
   const initialState = {
     success: false,
     errors: {} as Record<string, string[]>,
   };
-  const [state, action] = useFormState(saveUm, initialState);
+  const [state, action] = useActionState(saveUm, initialState);
+
+  useEffect(() => {
+    console.log("first", state);
+  }, [state]);
 
   return (
     <Dialog>

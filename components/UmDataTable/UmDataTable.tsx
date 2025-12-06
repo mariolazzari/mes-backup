@@ -11,12 +11,16 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
     {
       accessorKey: "actions",
       header: "",
-      cell: ({ row }) => (
-        <div className="flex items-center gap-1">
-          <UmDialog um={row.original} />
-          <UmDelete um={row.original} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const { original } = row;
+
+        return (
+          <div className="flex items-center gap-1">
+            <UmDialog um={original} />
+            <UmDelete um={original} />
+          </div>
+        );
+      },
     },
     {
       accessorKey: "cod",
