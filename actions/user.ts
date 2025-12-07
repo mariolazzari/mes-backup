@@ -9,7 +9,9 @@ import { redirect } from "next/navigation";
 // register user OTP verification
 export async function register(formData: FormData) {
   const email = formData.get("email");
-  if (typeof email !== "string") throw new Error("Invalid email");
+  if (typeof email !== "string") {
+    throw new Error("Invalid email");
+  }
 
   // 1️⃣ Controlla se l'utente esiste già
   const rows = await query<{ totp_secret: string }>(

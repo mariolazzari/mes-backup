@@ -14,18 +14,11 @@ import { Edit, Plus } from "lucide-react";
 import { SaveButton } from "../Buttons/SaveButton";
 import { CloseButton } from "../Buttons/CloseButton";
 import { UmDialogProps } from ".";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
+import { initialActionState } from "@/types/ActionState";
 
 export function UmDialog({ um }: UmDialogProps) {
-  const initialState = {
-    success: false,
-    errors: {} as Record<string, string[]>,
-  };
-  const [state, action] = useActionState(saveUm, initialState);
-
-  useEffect(() => {
-    console.log("first", state);
-  }, [state]);
+  const [state, action] = useActionState(saveUm, initialActionState);
 
   return (
     <Dialog>
@@ -56,7 +49,7 @@ export function UmDialog({ um }: UmDialogProps) {
               className="border p-2 w-full rounded"
             />
             {state.errors.cod && (
-              <p className="text-destructive text-sm">{state.errors.cod[0]}</p>
+              <p className="text-destructive text-sm">{state.errors.cod}</p>
             )}
           </div>
 
@@ -69,7 +62,7 @@ export function UmDialog({ um }: UmDialogProps) {
             />
             {state.errors.descrizione && (
               <p className="text-destructive text-sm">
-                {state.errors.descrizione[0]}
+                {state.errors.descrizione}
               </p>
             )}
           </div>
