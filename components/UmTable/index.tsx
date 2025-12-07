@@ -1,6 +1,6 @@
 import { Um } from "@/types/Um";
 
-export type UmDataTableProps = {
+export type UmTableProps = {
   ums: Um[];
 };
 

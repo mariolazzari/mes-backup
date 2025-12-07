@@ -17,7 +17,7 @@ CREATE TABLE users (
 ```sql
 CREATE TABLE um (
     cod CHAR(4) PRIMARY KEY,
-    descrizione TEXT
+    descrizione TEXT UNIQUE
 );
 
 INSERT INTO public.um (cod, descrizione) VALUES
@@ -25,6 +25,21 @@ INSERT INTO public.um (cod, descrizione) VALUES
 ('KG', 'Kilogrammi'),
 ('LT', 'Litri'),
 ('MT', 'Metri');
+```
+
+### Causali scarto
+
+```sql
+CREATE TABLE scrap (
+    cod CHAR(4) PRIMARY KEY,
+    descrizione TEXT UNIQUE
+);
+
+INSERT INTO public.scrap (cod, descrizione) VALUES
+('SC1', 'Causale 1'),
+('SC2', 'Causale 2'),
+('SC3', 'Causale 3'),
+('SC4', 'Causale 4');
 ```
 
 ### Registrazioni

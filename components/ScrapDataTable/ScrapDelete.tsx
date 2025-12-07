@@ -10,16 +10,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
-import { deleteUm } from "@/actions/um";
 import { initialActionState } from "@/types/ActionState";
-import { UmDeleteProps } from ".";
+import { ScrapDeleteProps } from ".";
 import { DeleteButton } from "../Buttons/DeleteButton";
 import { CloseButton } from "../Buttons/CloseButton";
 import { useActionState } from "react";
+import { deleteScrap } from "@/actions/scrap";
 
-export function UmDelete({ um }: UmDeleteProps) {
-  const { cod, descrizione } = um;
-  const [state, formAction] = useActionState(deleteUm, initialActionState);
+export function ScrapDelete({ scrap }: ScrapDeleteProps) {
+  const { cod, descrizione } = scrap;
+  const [state, formAction] = useActionState(deleteScrap, initialActionState);
 
   return (
     <Dialog>
@@ -31,20 +31,17 @@ export function UmDelete({ um }: UmDeleteProps) {
 
       <DialogContent className="sm:max-w-[425px]">
         <form action={formAction}>
-          {/* Hidden input for um id to delete */}
           <input type="hidden" name="cod" value={cod} />
 
           <DialogHeader>
             <DialogTitle>Elimina {cod}</DialogTitle>
             <DialogDescription>
-              Sei sicuro di voler eliminare l’unità di misura:{" "}
+              Sei sicuro di voler eliminare la causale di scarto:{" "}
               <b>{descrizione}</b>?
             </DialogDescription>
           </DialogHeader>
 
-          {!state.success && state.errors.general && (
-            <p className="text-destructive text-sm">{state.errors.general}</p>
-          )}
+          <p className="text-destructive text-sm">{state.errors.general}</p>
 
           <DialogFooter className="mt-4">
             <CloseButton />

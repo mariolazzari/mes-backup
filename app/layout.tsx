@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Layout) {
   return (
-    <html lang="it">
+    <html lang="it" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );

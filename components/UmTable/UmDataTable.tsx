@@ -1,12 +1,12 @@
 "use client";
 import { Um } from "@/types/Um";
 import { ColumnDef } from "@tanstack/react-table";
-import { UmDialog } from "./UmDialog";
+import { UmForm } from "./UmForm";
 import { ColumnHeader, DataTable } from "../DataTable";
-import { UmDataTableProps } from ".";
+import { UmTableProps } from ".";
 import { UmDelete } from "./UmDelete";
 
-export const UmDataTable = ({ ums }: UmDataTableProps) => {
+export const UmTable = ({ ums }: UmTableProps) => {
   const columns: ColumnDef<Um>[] = [
     {
       accessorKey: "actions",
@@ -16,7 +16,7 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
 
         return (
           <div className="flex items-center gap-1">
-            <UmDialog um={original} />
+            <UmForm um={original} />
             <UmDelete um={original} />
           </div>
         );
@@ -38,7 +38,7 @@ export const UmDataTable = ({ ums }: UmDataTableProps) => {
     <DataTable
       columns={columns}
       data={ums}
-      add={<UmDialog />}
+      add={<UmForm />}
       searchField="descrizione"
       searchPlaceholder="Cerca descrizione..."
     />

@@ -1,5 +1,5 @@
 import { getUms } from "@/actions/um";
-import { UmDataTable } from "@/components/UmDataTable";
+import { UmTable } from "@/components/UmTable";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,7 @@ async function UmPage() {
   return (
     <div className="flex flex-col gap-4 p-4">
       <h2 className="text-2xl text-center font-semibold">Unità di misura</h2>
-      <UmDataTable ums={ums} />
+      <UmTable ums={ums} />
     </div>
   );
 }
