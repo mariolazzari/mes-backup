@@ -3,7 +3,7 @@ import { query } from "@/lib/db";
 import { Um } from "@/types/Um";
 import { revalidatePath } from "next/cache";
 import { ActionState } from "@/types/ActionState";
-import { getErrorMessage } from "@/lib/error";
+import { actionError, generalError, noActionError } from "@/lib/error";
 
 export async function getUms(): Promise<Um[]> {
   return await query<Um>("SELECT * FROM um order by descrizione", []);
@@ -12,22 +12,27 @@ export async function getUms(): Promise<Um[]> {
 export async function saveUm(_prevState: ActionState, formData: FormData) {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
-    return {
-      success: false,
-      errors: {
-        cod: "Codice unità di misura non valido",
-      },
-    };
+    return actionError<Um>("cod", "Codice unità di misura non valido");
+  }
+  if (cod.length < 1) {
+    return actionError<Um>(
+      "cod",
+      "Codice unità di misura deve contenere almeno 1 carattere"
+    );
   }
 
   const descrizione = formData.get("descrizione");
   if (!descrizione || typeof descrizione !== "string") {
-    return {
-      success: false,
-      errors: {
-        descrizione: "Descrizione unità di misura non valido",
-      },
-    };
+    return actionError<Um>(
+      "descrizione",
+      "Descrizione unità di misura non valido"
+    );
+  }
+  if (descrizione.length < 1) {
+    return actionError<Um>(
+      "descrizione",
+      "La descrizione deve contenere almeno 1 carattere"
+    );
   }
 
   try {
@@ -43,29 +48,16 @@ export async function saveUm(_prevState: ActionState, formData: FormData) {
 
     revalidatePath("/um");
 
-    return { success: true, errors: {} };
+    return noActionError();
   } catch (ex) {
-    const general = `Errore salvataggio unità di misura: ${getErrorMessage(
-      ex
-    )}`;
-    console.error(general);
-
-    return {
-      success: false,
-      errors: {
-        general,
-      },
-    };
+    return generalError(ex, "Errore salvataggio unità di misura:");
   }
 }
 
 export async function deleteUm(_prevState: ActionState, formData: FormData) {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
-    return {
-      success: false,
-      errors: { cod: "Codice unità di misura mancante o non valido" },
-    };
+    return actionError<Um>("cod", "Codice unità di misura non valido");
   }
 
   try {
@@ -73,19 +65,8 @@ export async function deleteUm(_prevState: ActionState, formData: FormData) {
 
     revalidatePath("/um");
 
-    return {
-      success: true,
-      errors: {},
-    };
+    return noActionError();
   } catch (ex) {
-    console.error("Errore eliminazione UM:", ex);
-    const general = getErrorMessage(ex);
-
-    return {
-      success: false,
-      errors: {
-        general,
-      },
-    };
+    return generalError(ex, "Errore salvataggio unità di misura:");
   }
 }

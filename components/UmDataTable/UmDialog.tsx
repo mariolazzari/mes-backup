@@ -16,6 +16,8 @@ import { CloseButton } from "../Buttons/CloseButton";
 import { UmDialogProps } from ".";
 import { useActionState } from "react";
 import { initialActionState } from "@/types/ActionState";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 export function UmDialog({ um }: UmDialogProps) {
   const [state, action] = useActionState(saveUm, initialActionState);
@@ -42,8 +44,9 @@ export function UmDialog({ um }: UmDialogProps) {
           </DialogHeader>
 
           <div className="mt-4">
-            <label className="text-sm">Cod</label>
-            <input
+            <Label htmlFor="cod">Codice UM</Label>
+            <Input
+              id="cod"
               name="cod"
               defaultValue={um?.cod ?? ""}
               className="border p-2 w-full rounded"

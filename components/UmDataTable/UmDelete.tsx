@@ -42,7 +42,7 @@ export function UmDelete({ um }: UmDeleteProps) {
             </DialogDescription>
           </DialogHeader>
 
-          {state.errors.general && (
+          {!state.success && state.errors.general && (
             <p className="text-destructive text-sm">{state.errors.general}</p>
           )}
 
