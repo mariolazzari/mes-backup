@@ -16,8 +16,8 @@ import { CloseButton } from "../Buttons/CloseButton";
 import { UmDialogProps } from ".";
 import { useActionState } from "react";
 import { initialActionState } from "@/types/ActionState";
-import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 
 export function UmDialog({ um }: UmDialogProps) {
   const [state, action] = useActionState(saveUm, initialActionState);
@@ -36,39 +36,38 @@ export function UmDialog({ um }: UmDialogProps) {
 
       <DialogContent className="max-w-xl" key={um ? um.cod : "newUm"}>
         <form action={action}>
-          <DialogHeader>
+          <DialogHeader className="mb-4">
             <DialogTitle>{um ? `Modifica ${um.cod}` : "Nuova UM"}</DialogTitle>
             <DialogDescription>
-              {um ? um.descrizione : "Aggiungi nuova unità di misura"}
+              {um
+                ? `Modifica ${um.descrizione}`
+                : "Aggiungi nuova unità di misura"}
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-4">
-            <Label htmlFor="cod">Codice UM</Label>
-            <Input
-              id="cod"
-              name="cod"
-              defaultValue={um?.cod ?? ""}
-              className="border p-2 w-full rounded"
-            />
-            {state.errors.cod && (
-              <p className="text-destructive text-sm">{state.errors.cod}</p>
-            )}
-          </div>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="cod">Codice UM</FieldLabel>
+              <Input
+                id="cod"
+                name="cod"
+                defaultValue={um?.cod ?? ""}
+                className="border p-2 w-full rounded"
+              />
+              <FieldError>{state.errors.cod}</FieldError>
+            </Field>
 
-          <div className="mt-4">
-            <label className="text-sm">Descrizione</label>
-            <input
-              name="descrizione"
-              defaultValue={um?.descrizione ?? ""}
-              className="border p-2 w-full rounded"
-            />
-            {state.errors.descrizione && (
-              <p className="text-destructive text-sm">
-                {state.errors.descrizione}
-              </p>
-            )}
-          </div>
+            <Field>
+              <FieldLabel htmlFor="cod">Descrizione UM</FieldLabel>
+              <Input
+                id="descrizione"
+                name="descrizione"
+                defaultValue={um?.descrizione ?? ""}
+                className="border p-2 w-full rounded"
+              />
+              <FieldError>{state.errors.descrizione}</FieldError>
+            </Field>
+          </FieldGroup>
 
           <DialogFooter className="mt-6">
             <CloseButton />
