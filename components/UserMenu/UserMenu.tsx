@@ -6,7 +6,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserMenuProps } from ".";
@@ -33,22 +32,27 @@ export function UserMenu({ payload }: UserMenuProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-80" align="start">
-        <DropdownMenuLabel className="font-semibold text-center">
+        <DropdownMenuLabel className="font-bold text-center text-primary">
           {email}
         </DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuSeparator />
+
           <DropdownMenuItem className="flex justify-between">
-            <span>Ultimo accesso</span> <span>{formatTimestamp(iat)}</span>
+            <span>Ultimo accesso</span>
+            <span className="font-semibold">{formatTimestamp(iat)}</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="flex justify-between">
-            <span>Scadenza sessione</span> <span>{formatTimestamp(exp)}</span>
+            <span>Scadenza sessione</span>
+            <span className="font-semibold">{formatTimestamp(exp)}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={clearSession}>
+        <DropdownMenuItem
+          className="text-destructive font-semibold"
+          onClick={clearSession}
+        >
           Esci
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

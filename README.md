@@ -42,6 +42,21 @@ INSERT INTO public.scrap (cod, descrizione) VALUES
 ('SC4', 'Causale 4');
 ```
 
+### Centri di lavoro
+
+```sql
+CREATE TABLE wc (
+    cod CHAR(4) PRIMARY KEY,
+    descrizione TEXT UNIQUE
+);
+
+INSERT INTO public.wc (cod, descrizione) VALUES
+('WC1', 'Work center 1'),
+('WC2', 'Work center 2'),
+('WC3', 'Work center 3'),
+('WC4', 'Work center 4');
+```
+
 ### Registrazioni
 
 | Campo             | Tipo         | Note                                          |
