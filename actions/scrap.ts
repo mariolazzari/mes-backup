@@ -3,13 +3,14 @@ import { query } from "@/lib/db";
 import { actionError, generalError, noActionError } from "@/lib/error";
 import { ActionState } from "@/types/ActionState";
 import { Scrap } from "@/types/Scrap";
+import { ServerAction } from "@/types/ServerAction";
 import { revalidatePath } from "next/cache";
 
 export async function getScraps(): Promise<Scrap[]> {
   return await query<Scrap>("SELECT * FROM scrap order by descrizione", []);
 }
 
-export async function saveScrap(_prevState: ActionState, formData: FormData) {
+export const saveScrap: ServerAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Scrap>("cod", "Codice unità di misura non valido");
@@ -52,9 +53,9 @@ export async function saveScrap(_prevState: ActionState, formData: FormData) {
   } catch (ex) {
     return generalError(ex, "Errore salvataggio causale scarto:");
   }
-}
+};
 
-export async function deleteScrap(_prevState: ActionState, formData: FormData) {
+export const deleteScrap: ServerAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Scrap>("cod", "Codice causale scarto non valido");
@@ -67,6 +68,6 @@ export async function deleteScrap(_prevState: ActionState, formData: FormData) {
 
     return noActionError();
   } catch (ex) {
-    return generalError(ex, "Errore cancellazione causale scarto:");
+    return generalError(ex, "Errore eliminazione causale scarto:");
   }
-}
+};

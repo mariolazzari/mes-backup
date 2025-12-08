@@ -46,7 +46,7 @@ INSERT INTO public.scrap (cod, descrizione) VALUES
 
 ```sql
 CREATE TABLE wc (
-    cod CHAR(4) PRIMARY KEY,
+    cod CHAR(8) PRIMARY KEY,
     descrizione TEXT UNIQUE
 );
 
@@ -62,6 +62,9 @@ INSERT INTO public.wc (cod, descrizione) VALUES
 | Campo             | Tipo         | Note                                          |
 | ----------------- | ------------ | --------------------------------------------- |
 | Id                | Number(10)   |                                               |
+| ODP               | Char(20)     | Tutto maiuscolo                               |
+| operatore         | Text         |                                               |
+| wc                | Char(8)      |                                               |
 | ODP               | Char(20)     | Tutto maiuscolo                               |
 | Fase              | Char(4)      |                                               |
 | Prodotto          | Char(20)     | Tutto Maiuscolo                               |
@@ -83,6 +86,8 @@ INSERT INTO public.wc (cod, descrizione) VALUES
 CREATE TABLE prod (
     id                INTEGER PRIMARY KEY,
     odp               CHAR(20) NOT NULL,
+    opertore          TEXT,
+    wc                CHAR(8) REFERENCES wc(cod),
     fase              CHAR(4),
     prodotto          CHAR(20) NOT NULL,
     um_prod           CHAR(4) REFERENCES um(cod),

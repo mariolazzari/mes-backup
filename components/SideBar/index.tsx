@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Home } from "lucide-react";
 import { BiMath } from "react-icons/bi";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { GrUserWorker } from "react-icons/gr";
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +27,11 @@ const items = [
     title: "Causali scarto",
     url: "/mes/scraps",
     icon: FaRegTrashCan,
+  },
+  {
+    title: "Centri lavoro",
+    url: "/mes/wc",
+    icon: GrUserWorker,
   },
   {
     title: "Unità di misura",

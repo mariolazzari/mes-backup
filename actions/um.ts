@@ -67,6 +67,6 @@ export async function deleteUm(_prevState: ActionState, formData: FormData) {
 
     return noActionError();
   } catch (ex) {
-    return generalError(ex, "Errore salvataggio unità di misura:");
+    return generalError(ex, "Errore eliminazione unità di misura:");
   }
 }
