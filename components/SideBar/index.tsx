@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
+import Logo from "@/public/logo-icc.png";
 
 // Menu items.
 const items = [
@@ -37,14 +38,8 @@ export function SideBar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <div className="flex justify-center p-8">
-          <Image
-            src="/logo-icc.png"
-            width={100}
-            height={100}
-            alt="ICC logo"
-            priority
-          />
+        <div className="flex justify-center py-8">
+          <Image className="h-auto w-auto" src={Logo} alt="ICC logo" priority />
         </div>
         <SidebarGroup>
           <SidebarGroupLabel>MES</SidebarGroupLabel>

@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export function formatTimestamp(timestamp: number): string {
   const datetime = new Date(timestamp * 1000);
   const date = datetime.toLocaleDateString("it-IT");
@@ -5,3 +7,10 @@ export function formatTimestamp(timestamp: number): string {
 
   return `${date} ${time}`;
 }
+
+export const formatTime = (date?: Date) => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "HH:mm");
+};

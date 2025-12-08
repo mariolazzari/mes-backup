@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,13 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ProdFormProps } from ".";
+import { MesFormProps } from ".";
 import { MdAddTask, MdEdit, MdCyclone } from "react-icons/md";
+import { CloseButton, SaveButton } from "../Buttons";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
 
-export function ProdDialog({ mode }: ProdFormProps) {
+export function MesForm({ mode, mes }: MesFormProps) {
   const [isProd, setProd] = useState(true);
 
-  const renderIcon = () => {
+  const renderIcon = useCallback(() => {
     switch (mode) {
       case "insert":
         return <MdAddTask className="w-full! h-full!" />;
@@ -32,9 +34,7 @@ export function ProdDialog({ mode }: ProdFormProps) {
         const missingMode: never = mode;
         throw new Error(`Mode ${missingMode} not supported`);
     }
-  };
-
-  useEffect(() => {}, []);
+  }, [mode]);
 
   return (
     <Dialog>
@@ -47,15 +47,24 @@ export function ProdDialog({ mode }: ProdFormProps) {
 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{isProd ? "Versamento" : "Consumo"}</DialogTitle>
+            <DialogTitle>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isProd"
+                  checked={isProd}
+                  onCheckedChange={setProd}
+                />
+                <Label htmlFor="isProd">
+                  {isProd ? "Versamento" : "Consumo"}
+                </Label>
+              </div>
+            </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <CloseButton />
+            <SaveButton />
           </DialogFooter>
         </DialogContent>
       </form>

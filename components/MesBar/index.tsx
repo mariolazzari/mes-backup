@@ -1,14 +1,14 @@
-import { ProdDialog } from "../ProdDialog";
 import { ExcelDialog } from "../ExcelDialog";
 import { RestoreDialog } from "../RestoreDialog";
 import { DeleteDialog } from "../DeleteDialog";
+import { MesForm } from "../MesTable";
 
 export const MesBar = () => {
   return (
     <div className="flex">
-      <ProdDialog mode="insert" />
-      <ProdDialog mode="update" />
-      <ProdDialog mode="clone" />
+      <MesForm mode="insert" />
+      <MesForm mode="update" />
+      <MesForm mode="clone" />
       <ExcelDialog />
       <RestoreDialog />
       <DeleteDialog />

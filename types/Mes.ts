@@ -1,4 +1,4 @@
-export type Production = {
+export type Mes = {
   id: number;
   odp: string;
   fase: string;

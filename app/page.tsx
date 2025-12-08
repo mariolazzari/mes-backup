@@ -11,15 +11,16 @@ import {
 import { Field, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import Logo from "@/public/logo-icc.png";
 
 function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex min-h-screen items-center justify-center bg-background font-sans dark:bg-black">
       <Card className="shadow-md">
         <form action={register}>
           <CardHeader>
             <CardTitle className="mx-auto">
-              <Image src="/logo-icc.png" width={150} height={150} alt="Logo" />
+              <Image className="w-auto h-auto" src={Logo} alt="Logo" priority />
             </CardTitle>
             <CardDescription className="text-3xl my-4">Login</CardDescription>
           </CardHeader>

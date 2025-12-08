@@ -12,4 +12,4 @@ export type UmDeleteProps = {
   um: Um;
 };
 
-export * from "./UmDataTable";
+export * from "./UmTable";
