@@ -1,7 +1,12 @@
 "use server";
 
 import { query } from "@/lib/db";
-import { actionError, generalError, noActionError } from "@/lib/error";
+import {
+  actionError,
+  generalError,
+  getErrorMessage,
+  noActionError,
+} from "@/lib/error";
 import { ActionState } from "@/types/ActionState";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
@@ -10,8 +15,15 @@ export async function getProds(): Promise<Mes[]> {
   return await query<Mes>("SELECT * FROM prod order by id desc", []);
 }
 
-export async function saveProd(_prevState: ActionState, formData: FormData) {
-  const id = formData.get("id");
+export async function saveMes(mes: Mes) {
+  if (mes.id) {
+    // update mes
+    console.log("UPDATE", mes);
+  } else {
+    // insert mes
+    console.log("INSERT", mes);
+  }
+
   //   if (!cod || typeof cod !== "string") {
   //     return actionError<Scrap>("cod", "Codice unità di misura non valido");
   //   }
@@ -33,11 +45,12 @@ export async function saveProd(_prevState: ActionState, formData: FormData) {
     //   [cod, descrizione]
     // );
 
-    revalidatePath("/mes");
+    //    revalidatePath("/mes");
 
-    return noActionError();
+    return { success: true, error: "" };
   } catch (ex) {
-    return generalError(ex, "Errore salvataggio produzione:");
+    const error = getErrorMessage(ex);
+    return { success: false, error };
   }
 }
 

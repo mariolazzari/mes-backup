@@ -4,7 +4,6 @@ import { MesForm } from "./MesForm";
 import { ColumnHeader, DataTable } from "../DataTable";
 import { MesTableProps } from ".";
 import { Mes } from "@/types/Mes";
-import { MesStatus } from "./MesStatus";
 
 export const MesTable = ({ mes }: MesTableProps) => {
   const columns: ColumnDef<Mes>[] = [
@@ -17,7 +16,6 @@ export const MesTable = ({ mes }: MesTableProps) => {
         return (
           <div className="flex items-center gap-1">
             <MesForm mes={original} mode="update" />
-            <MesStatus mes={original} mode="delete" />
           </div>
         );
       },
@@ -49,13 +47,5 @@ export const MesTable = ({ mes }: MesTableProps) => {
     },
   ];
 
-  return (
-    <DataTable
-      columns={columns}
-      data={mes}
-      add={<MesForm mode="insert" />}
-      searchField="id"
-      searchPlaceholder="Cerca transazione..."
-    />
-  );
+  return <DataTable columns={columns} data={mes} />;
 };

@@ -1,18 +1,14 @@
 "use server";
 import { query } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { ActionState } from "@/types/ActionState";
 import { actionError, generalError, noActionError } from "@/lib/error";
-import { WorkCenter } from "@/types/WorkCenter";
+import { ServerAction, WorkCenter } from "@/types";
 
 export async function getWorkCenter(): Promise<WorkCenter[]> {
   return await query<WorkCenter>("SELECT * FROM wc order by descrizione", []);
 }
 
-export async function saveWorkCenter(
-  _prevState: ActionState,
-  formData: FormData
-) {
+export const saveWorkCenter: ServerAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<WorkCenter>("cod", "Codice centro di lavoro non valido");
@@ -55,12 +51,9 @@ export async function saveWorkCenter(
   } catch (ex) {
     return generalError(ex, "Errore salvataggio unità di misura:");
   }
-}
+};
 
-export async function deleteWorkCenter(
-  _prevState: ActionState,
-  formData: FormData
-) {
+export const deleteWorkCenter: ServerAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<WorkCenter>("cod", "Codice centro di lavoro non valido");
@@ -75,4 +68,4 @@ export async function deleteWorkCenter(
   } catch (ex) {
     return generalError(ex, "Errore eliminazione centro di lavoro:");
   }
-}
+};

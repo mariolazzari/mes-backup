@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Layout } from "@/types/Layout";
+import { Layout } from "@/types";
 import { inter } from "./fonts";
 
 export const metadata: Metadata = {
-  title: "Login - MES Basic",
+  title: "Login - MES",
   description: "Created by Mario Lazzari",
 };
 

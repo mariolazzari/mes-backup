@@ -1,6 +1,8 @@
 export type Mes = {
   id: number;
   odp: string;
+  operatore: string;
+  wc: string;
   fase: string;
   prodotto: string;
   um_prod: string;

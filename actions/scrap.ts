@@ -1,7 +1,6 @@
 "use server";
 import { query } from "@/lib/db";
 import { actionError, generalError, noActionError } from "@/lib/error";
-import { ActionState } from "@/types/ActionState";
 import { Scrap } from "@/types/Scrap";
 import { ServerAction } from "@/types/ServerAction";
 import { revalidatePath } from "next/cache";
