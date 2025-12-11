@@ -16,7 +16,7 @@ export async function getProds(): Promise<Mes[]> {
 }
 
 export async function saveMes(mes: Mes) {
-  if (mes.id) {
+  if (mes.id > 0) {
     // update mes
     console.log("UPDATE", mes);
   } else {

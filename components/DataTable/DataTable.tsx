@@ -29,6 +29,7 @@ export function DataTable<T>({
   add,
   searchField,
   searchPlaceholder = "Cerca...",
+  onClick,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

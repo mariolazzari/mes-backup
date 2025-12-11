@@ -15,13 +15,14 @@ import { MdAddTask, MdEdit, MdCyclone } from "react-icons/md";
 import { CloseButton, SaveButton } from "../Buttons";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { DateTimePicker } from "../Pickers";
 import { Mes } from "@/types";
+import { MesFormGeneral } from "./MesFormGeneral";
+import { saveMes } from "@/actions/mes";
+import { MesFormProd } from "./MesFormProd";
+import { MesFormCons } from "./MesFormCons";
 
-export function MesForm({ mode, mes }: MesFormProps) {
+export function MesForm({ mode, mes, wcs }: MesFormProps) {
   const [isProd, setProd] = useState(true);
   const [selected, setSelected] = useState<Mes>(() => {
     if (mode === "insert") {
@@ -57,20 +58,22 @@ export function MesForm({ mode, mes }: MesFormProps) {
   }, [mode]);
 
   const onFormSubmit: FormEventHandler<HTMLFormElement> = async e => {
-    console.log("first");
     e.preventDefault();
+    if (!selected) {
+      return;
+    }
+
+    console.log("first");
 
     console.log("submit", selected);
 
-    // if (!selected) return;
-
-    // if (mode === "insert" || mode === "clone") {
-    //   // create new MES
-    //   await saveMes({ ...selected, id: -1 });
-    // } else if (mode === "update") {
-    //   // update existing MES
-    //   await saveMes(selected);
-    // }
+    if (mode === "insert" || mode === "clone") {
+      // create new MES
+      await saveMes({ ...selected, id: -1 });
+    } else if (mode === "update") {
+      // update existing MES
+      await saveMes(selected);
+    }
   };
 
   return (
@@ -81,7 +84,7 @@ export function MesForm({ mode, mes }: MesFormProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-auto">
         <form onSubmit={onFormSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -107,35 +110,17 @@ export function MesForm({ mode, mes }: MesFormProps) {
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
-          <FieldGroup className="space-y-4">
-            <Field>
-              <FieldLabel htmlFor="data_ora_inizio">Data/Ora Inizio</FieldLabel>
-              <DateTimePicker
-                value={selected?.data_ora_inizio}
-                onChange={date =>
-                  setSelected(prev => ({
-                    ...prev,
-                    data_ora_inizio: date ?? new Date(),
-                  }))
-                }
-              />
-              <FieldError></FieldError>
-            </Field>
+          <MesFormGeneral
+            selected={selected}
+            setSelected={setSelected}
+            wcs={wcs}
+          />
 
-            <Field>
-              <FieldLabel htmlFor="operatore">Operatore</FieldLabel>
-              <Input
-                id="operatore"
-                name="operatore"
-                value={selected?.operatore ?? ""}
-                onChange={e =>
-                  setSelected(prev => ({ ...prev, operatore: e.target.value }))
-                }
-                className="border p-2 w-full rounded"
-              />
-              <FieldError></FieldError>
-            </Field>
-          </FieldGroup>
+          {isProd ? (
+            <MesFormProd selected={selected} setSelected={setSelected} />
+          ) : (
+            <MesFormCons selected={selected} setSelected={setSelected} />
+          )}
 
           <DialogFooter className="mt-4">
             <CloseButton />

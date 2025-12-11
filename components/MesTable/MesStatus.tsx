@@ -36,7 +36,7 @@ export function MesStatus({ mes, mode }: MesStatusProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-xl">
         <form action={mode === "delete" ? actionDelete : actionRestore}>
           <input type="hidden" name="id" value={id} />
 
