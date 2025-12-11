@@ -11,9 +11,7 @@ export const MesFormProd = ({ selected, setSelected }: MesFormGroupProps) => {
           id="item"
           name="item"
           value={selected?.prodotto ?? ""}
-          onChange={e =>
-            setSelected(prev => ({ ...prev, prodotto: e.target.value }))
-          }
+          onChange={e => setSelected({ ...selected, prodotto: e.target.value })}
           className="border p-2 w-full rounded"
           required
         />

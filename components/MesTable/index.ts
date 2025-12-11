@@ -4,14 +4,16 @@ import { Dispatch, SetStateAction } from "react";
 
 export type MesTableProps = {
   mes: Mes[];
+  wcs: WorkCenter[];
 };
 
 type MesFormMode = "insert" | "update" | "clone";
 
 export type MesFormProps = {
   mode: MesFormMode;
-  mes?: Mes;
+  mes: Partial<Mes>;
   wcs: WorkCenter[];
+  disabled?: boolean;
 };
 
 type MesStatusMode = "delete" | "restore";
@@ -22,8 +24,8 @@ export type MesStatusProps = {
 };
 
 export type MesFormGroupProps = {
-  selected: Mes;
-  setSelected: Dispatch<SetStateAction<Mes>>;
+  selected: Partial<Mes>;
+  setSelected: Dispatch<SetStateAction<Partial<Mes>>>;
 };
 
 export type MesFormGeneralProps = MesFormGroupProps & {

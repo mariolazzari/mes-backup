@@ -16,36 +16,59 @@ export async function getProds(): Promise<Mes[]> {
 }
 
 export async function saveMes(mes: Mes) {
-  if (mes.id > 0) {
-    // update mes
-    console.log("UPDATE", mes);
-  } else {
-    // insert mes
-    console.log("INSERT", mes);
-  }
-
-  //   if (!cod || typeof cod !== "string") {
-  //     return actionError<Scrap>("cod", "Codice unità di misura non valido");
-  //   }
-  //   if (cod.length < 1) {
-  //     return actionError<Scrap>(
-  //       "cod",
-  //       "Codice causale scarto deve contenere almeno 1 carattere"
-  //     );
-  //   }
-
   try {
-    // await query(
-    //   `
-    //     INSERT INTO scrap (cod, descrizione)
-    //     VALUES ($1, $2)
-    //     ON CONFLICT (cod)
-    //     DO UPDATE SET descrizione = EXCLUDED.descrizione
-    //   `,
-    //   [cod, descrizione]
-    // );
+    if (mes.id > 0) {
+      // update mes
+      console.log("UPDATE", mes);
+    } else {
+      // insert mes
+      console.log("INSERT", mes);
 
-    //    revalidatePath("/mes");
+      await query(
+        `INSERT INTO prod (
+                      odp,
+                      opertore,
+                      wc,
+                      fase,
+                      prodotto,
+                      um_prod,
+                      qta_prodotta,
+                      hu_prod_ok,
+                      qta_scartata,
+                      hu_scarto,
+                      data_ora_inizio,
+                      data_ora_fine,
+                      componente,
+                      hu_comp,
+                      flag_hu_comp,
+                      um_cons,
+                      qta_cons,
+                      hold
+          )
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
+        [
+          mes.odp,
+          mes.operatore,
+          mes.wc,
+          mes.fase,
+          mes.prodotto,
+          mes.um_prod,
+          mes.qta_prodotta,
+          mes.hu_prod_ok,
+          mes.qta_scartata,
+          mes.hu_scarto,
+          mes.data_ora_inizio,
+          mes.data_ora_fine,
+          mes.componente,
+          mes.hu_comp,
+          mes.flag_hu_comp,
+          mes.um_cons,
+          mes.qta_cons,
+          mes.hold,
+        ]
+      );
+    }
+    revalidatePath("/mes");
 
     return { success: true, error: "" };
   } catch (ex) {

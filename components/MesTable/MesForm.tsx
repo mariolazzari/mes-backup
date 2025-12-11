@@ -1,5 +1,5 @@
 "use client";
-import { FormEventHandler, useCallback, useState } from "react";
+import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,26 +22,30 @@ import { saveMes } from "@/actions/mes";
 import { MesFormProd } from "./MesFormProd";
 import { MesFormCons } from "./MesFormCons";
 
-export function MesForm({ mode, mes, wcs }: MesFormProps) {
+export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
   const [isProd, setProd] = useState(true);
-  const [selected, setSelected] = useState<Mes>(() => {
-    if (mode === "insert") {
-      return {
-        id: -1, // or undefined
-        operatore: "",
-        data_ora_inizio: new Date(),
-        // fill other required fields with defaults
-      } as Mes;
-    } else if (mode === "clone" && mes) {
-      return {
-        ...mes,
-        id: -1, // clear ID so it's treated as new
-      };
-    } else if (mode === "update" && mes) {
-      return mes;
-    }
-    return {} as Mes;
-  });
+  // const [selected, setSelected] = useState<Mes>(() => {
+  //   if (mode === "insert") {
+  //     return {
+  //       id: -1, // or undefined
+  //       operatore: "",
+  //       data_ora_inizio: new Date(),
+  //       // fill other required fields with defaults
+  //     } as Mes;
+  //   } else if (mode === "clone" && mes) {
+  //     return {
+  //       ...mes,
+  //       id: -1, // clear ID so it's treated as new
+  //     };
+  //   } else if (mode === "update" && mes) {
+  //     return mes;
+  //   }
+  //   return {} as Mes;
+  // });
+
+  const [selected, setSelected] = useState<Partial<Mes>>({});
+
+  console.log("Mes form mes", mes);
 
   const renderIcon = useCallback(() => {
     switch (mode) {
@@ -63,23 +67,28 @@ export function MesForm({ mode, mes, wcs }: MesFormProps) {
       return;
     }
 
-    console.log("first");
-
-    console.log("submit", selected);
-
     if (mode === "insert" || mode === "clone") {
       // create new MES
-      await saveMes({ ...selected, id: -1 });
+      await saveMes({ ...selected, id: -1 } as Mes);
     } else if (mode === "update") {
       // update existing MES
-      await saveMes(selected);
+      await saveMes(selected as Mes);
     }
   };
+
+  useEffect(() => {
+    setSelected(mes);
+  }, [mes]);
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-16 h-16 p-2" variant="outline" size="icon-lg">
+        <Button
+          className="w-16 h-16 p-2"
+          variant="outline"
+          size="icon-lg"
+          disabled={disabled}
+        >
           {renderIcon()}
         </Button>
       </DialogTrigger>

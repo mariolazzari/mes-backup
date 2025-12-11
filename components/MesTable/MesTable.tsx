@@ -3,14 +3,38 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ColumnHeader, DataTable } from "../DataTable";
 import { MesTableProps } from ".";
 import { Mes } from "@/types/Mes";
+import { formatDateTime } from "@/lib/date";
+import { useState } from "react";
+import { MesBar } from "../MesBar";
+import { Checkbox } from "../ui/checkbox";
 
-export const MesTable = ({ mes }: MesTableProps) => {
+export const MesTable = ({ mes, wcs }: MesTableProps) => {
+  const [selected, setSelected] = useState<Partial<Mes>>({});
+
   const columns: ColumnDef<Mes>[] = [
+    {
+      accessorKey: "actions",
+      header: "",
+      cell: ({ row }) => {
+        const { original } = row;
+
+        return (
+          <Checkbox
+            checked={original.id === selected?.id}
+            onCheckedChange={() => setSelected(original)}
+            onClick={e => e.stopPropagation()}
+          />
+        );
+      },
+    },
     {
       accessorKey: "data_ora_inizio",
       header: ({ column }) => (
         <ColumnHeader column={column} title="Data e ora" />
       ),
+      cell: ({ row }) => {
+        return formatDateTime(row.original.data_ora_inizio);
+      },
     },
 
     {
@@ -33,5 +57,10 @@ export const MesTable = ({ mes }: MesTableProps) => {
     },
   ];
 
-  return <DataTable columns={columns} data={mes} />;
+  return (
+    <div className="w-full flex flex-col items-center">
+      <MesBar wcs={wcs} selected={selected} disableActions={!!!selected.id} />
+      <DataTable columns={columns} data={mes} onClick={setSelected} />;
+    </div>
+  );
 };

@@ -9,6 +9,8 @@ export const MesFormGeneral = ({
   setSelected,
   wcs,
 }: MesFormGeneralProps) => {
+  console.log("general selected", selected);
+
   return (
     <FieldGroup>
       <Field>
@@ -31,7 +33,10 @@ export const MesFormGeneral = ({
           name="operatore"
           value={selected?.operatore ?? ""}
           onChange={e =>
-            setSelected(prev => ({ ...prev, operatore: e.target.value }))
+            setSelected(prev => ({
+              ...(prev ?? {}), // <-- ensure prev is always object
+              operatore: e.target.value,
+            }))
           }
           className="border p-2 w-full rounded"
         />
@@ -48,7 +53,7 @@ export const MesFormGeneral = ({
           }))}
           placeholder="Seleziona WC"
           value={selected?.wc ?? ""}
-          onChange={wc => setSelected({ ...selected, wc })}
+          onChange={wc => setSelected(prev => ({ ...prev, wc }))}
         />
         <FieldError></FieldError>
       </Field>
