@@ -1,5 +1,5 @@
 "use server";
-
+import { delCache, setCache } from "@/lib/cache";
 import { query } from "@/lib/db";
 import {
   actionError,
@@ -11,23 +11,71 @@ import { ActionState } from "@/types/ActionState";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
 
+const CACHE_KEY = "prods:list";
+
 export async function getProds(): Promise<Mes[]> {
-  return await query<Mes>("SELECT * FROM prod order by id desc", []);
+  const prods = await query<Mes>("SELECT * FROM prod order by id desc", []);
+  await setCache(CACHE_KEY, prods);
+
+  return prods;
 }
 
 export async function saveMes(mes: Mes) {
   try {
     if (mes.id > 0) {
       // update mes
-      console.log("UPDATE", mes);
+      await query(
+        `
+          UPDATE prod
+          SET
+            odp             = $2,
+            operatore       = $3,
+            wc              = $4,
+            fase            = $5,
+            prodotto        = $6,
+            um_prod         = $7,
+            qta_prodotta    = $8,
+            hu_prod_ok      = $9,
+            qta_scartata    = $10,
+            hu_scarto       = $11,
+            data_ora_inizio = $12,
+            data_ora_fine   = $13,
+            componente      = $14,
+            hu_comp         = $15,
+            flag_hu_comp    = $16,
+            um_cons         = $17,
+            qta_cons        = $18,
+            hold            = $19
+          WHERE id = $1
+        `,
+        [
+          mes.id,
+          mes.odp,
+          mes.operatore,
+          mes.wc,
+          mes.fase,
+          mes.prodotto,
+          mes.um_prod,
+          mes.qta_prodotta,
+          mes.hu_prod_ok,
+          mes.qta_scartata,
+          mes.hu_scarto,
+          mes.data_ora_inizio,
+          mes.data_ora_fine,
+          mes.componente,
+          mes.hu_comp,
+          mes.flag_hu_comp,
+          mes.um_cons,
+          mes.qta_cons,
+          mes.hold,
+        ]
+      );
     } else {
       // insert mes
-      console.log("INSERT", mes);
-
       await query(
         `INSERT INTO prod (
                       odp,
-                      opertore,
+                      operatore,
                       wc,
                       fase,
                       prodotto,
@@ -68,6 +116,8 @@ export async function saveMes(mes: Mes) {
         ]
       );
     }
+    await delCache(CACHE_KEY);
+
     revalidatePath("/mes");
 
     return { success: true, error: "" };
@@ -85,6 +135,7 @@ export async function deleteMes(_prevState: ActionState, formData: FormData) {
 
   try {
     await query("Update prod set hold=true WHERE id = $1", [id]);
+    await delCache(CACHE_KEY);
 
     revalidatePath("/mes");
 
@@ -102,6 +153,7 @@ export async function restoreMes(_prevState: ActionState, formData: FormData) {
 
   try {
     await query("Update prod set hold=false WHERE id = $1", [id]);
+    await delCache(CACHE_KEY);
 
     revalidatePath("/mes");
 

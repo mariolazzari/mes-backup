@@ -3,9 +3,18 @@ import { query } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { actionError, generalError, noActionError } from "@/lib/error";
 import { ServerAction, WorkCenter } from "@/types";
+import { delCache, setCache } from "@/lib/cache";
 
-export async function getWorkCenter(): Promise<WorkCenter[]> {
-  return await query<WorkCenter>("SELECT * FROM wc order by descrizione", []);
+const CACHE_KEY = "wc:list";
+
+export async function getWorkCenters(): Promise<WorkCenter[]> {
+  const wcs = await query<WorkCenter>(
+    "SELECT * FROM wc order by descrizione",
+    []
+  );
+  await setCache(CACHE_KEY, wcs);
+
+  return wcs;
 }
 
 export const saveWorkCenter: ServerAction = async (_prevState, formData) => {
@@ -44,7 +53,7 @@ export const saveWorkCenter: ServerAction = async (_prevState, formData) => {
       `,
       [cod, descrizione]
     );
-
+    await delCache(CACHE_KEY);
     revalidatePath("/wc");
 
     return noActionError();
@@ -61,6 +70,7 @@ export const deleteWorkCenter: ServerAction = async (_prevState, formData) => {
 
   try {
     await query("DELETE FROM wc WHERE cod = $1", [cod]);
+    await delCache(CACHE_KEY);
 
     revalidatePath("/wc");
 

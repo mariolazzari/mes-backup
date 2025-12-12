@@ -1,10 +1,10 @@
-import { getWorkCenter } from "@/actions/wc";
+import { getWorkCenters } from "@/actions/wc";
 import { WcTable } from "@/components/WcTable";
 
 export const dynamic = "force-dynamic";
 
 async function WcPage() {
-  const wcs = await getWorkCenter();
+  const wcs = await getWorkCenters();
 
   return (
     <div className="flex flex-col gap-4 p-4">

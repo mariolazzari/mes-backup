@@ -1,12 +1,21 @@
 "use server";
+import { delCache, setCache } from "@/lib/cache";
 import { query } from "@/lib/db";
 import { actionError, generalError, noActionError } from "@/lib/error";
 import { Scrap } from "@/types/Scrap";
 import { ServerAction } from "@/types/ServerAction";
 import { revalidatePath } from "next/cache";
 
+const CACHE_KEY = "scraps:list";
+
 export async function getScraps(): Promise<Scrap[]> {
-  return await query<Scrap>("SELECT * FROM scrap order by descrizione", []);
+  const scraps = await query<Scrap>(
+    "SELECT * FROM scrap order by descrizione",
+    []
+  );
+  await setCache(CACHE_KEY, scraps);
+
+  return scraps;
 }
 
 export const saveScrap: ServerAction = async (_prevState, formData) => {
@@ -45,6 +54,7 @@ export const saveScrap: ServerAction = async (_prevState, formData) => {
       `,
       [cod, descrizione]
     );
+    await delCache(CACHE_KEY);
 
     revalidatePath("/um");
 
@@ -62,6 +72,7 @@ export const deleteScrap: ServerAction = async (_prevState, formData) => {
 
   try {
     await query("DELETE FROM scrap WHERE cod = $1", [cod]);
+    await delCache(CACHE_KEY);
 
     revalidatePath("/um");
 

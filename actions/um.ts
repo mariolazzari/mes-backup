@@ -3,9 +3,20 @@ import { query } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { actionError, generalError, noActionError } from "@/lib/error";
 import { ServerAction, Um } from "@/types";
+import { delCache, getCache, setCache } from "@/lib/cache";
+
+const CACHE_KEY = "um:list";
 
 export async function getUms(): Promise<Um[]> {
-  return await query<Um>("SELECT * FROM um order by descrizione", []);
+  const cached = await getCache<Um[]>(CACHE_KEY);
+  if (cached) {
+    return cached;
+  }
+
+  const ums = await query<Um>("SELECT * FROM um order by descrizione", []);
+  await setCache<Um[]>(CACHE_KEY, ums);
+
+  return ums;
 }
 
 export const saveUm: ServerAction = async (_prevState, formData) => {
@@ -44,6 +55,7 @@ export const saveUm: ServerAction = async (_prevState, formData) => {
       `,
       [cod, descrizione]
     );
+    await delCache(CACHE_KEY);
 
     revalidatePath("/um");
 
@@ -61,6 +73,7 @@ export const deleteUm: ServerAction = async (_prevState, formData) => {
 
   try {
     await query("DELETE FROM um WHERE cod = $1", [cod]);
+    await delCache(CACHE_KEY);
 
     revalidatePath("/um");
 
