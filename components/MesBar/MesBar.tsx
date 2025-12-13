@@ -6,8 +6,6 @@ import { MesForm } from "../MesTable";
 import { MesBarProps } from ".";
 
 export const MesBar = ({ wcs, selected, disableActions }: MesBarProps) => {
-  console.log("mesbar selected", selected);
-
   return (
     <div className="flex">
       <MesForm mode="insert" wcs={wcs} mes={{}} disabled={false} />

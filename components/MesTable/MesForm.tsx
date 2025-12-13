@@ -24,28 +24,7 @@ import { MesFormCons } from "./MesFormCons";
 
 export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
   const [isProd, setProd] = useState(true);
-  // const [selected, setSelected] = useState<Mes>(() => {
-  //   if (mode === "insert") {
-  //     return {
-  //       id: -1, // or undefined
-  //       operatore: "",
-  //       data_ora_inizio: new Date(),
-  //       // fill other required fields with defaults
-  //     } as Mes;
-  //   } else if (mode === "clone" && mes) {
-  //     return {
-  //       ...mes,
-  //       id: -1, // clear ID so it's treated as new
-  //     };
-  //   } else if (mode === "update" && mes) {
-  //     return mes;
-  //   }
-  //   return {} as Mes;
-  // });
-
   const [selected, setSelected] = useState<Partial<Mes>>({});
-
-  console.log("Mes form mes", mes);
 
   const renderIcon = useCallback(() => {
     switch (mode) {
@@ -93,7 +72,7 @@ export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="w-auto">
+      <DialogContent className="w-80 md:w-96 lg:w-lg xl:w-xl">
         <form onSubmit={onFormSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -119,17 +98,19 @@ export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
-          <MesFormGeneral
-            selected={selected}
-            setSelected={setSelected}
-            wcs={wcs}
-          />
+          <div className="flex flex-col gap-2">
+            <MesFormGeneral
+              selected={selected}
+              setSelected={setSelected}
+              wcs={wcs}
+            />
 
-          {isProd ? (
-            <MesFormProd selected={selected} setSelected={setSelected} />
-          ) : (
-            <MesFormCons selected={selected} setSelected={setSelected} />
-          )}
+            {isProd ? (
+              <MesFormProd selected={selected} setSelected={setSelected} />
+            ) : (
+              <MesFormCons selected={selected} setSelected={setSelected} />
+            )}
+          </div>
 
           <DialogFooter className="mt-4">
             <CloseButton />

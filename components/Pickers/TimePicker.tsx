@@ -26,7 +26,7 @@ export function TimePicker({ value, onChange }: TimePickerProps) {
         Ora
       </Label>
       <Input
-        className="bg-background"
+        className="bg-background w-24"
         id="time-picker"
         type="time"
         step="60"

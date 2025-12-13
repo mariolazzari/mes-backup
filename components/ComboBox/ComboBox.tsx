@@ -46,6 +46,7 @@ export function ComboBox({
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-auto p-0">
         <Command>
           <CommandInput placeholder={placeholder} className="h-9" />
