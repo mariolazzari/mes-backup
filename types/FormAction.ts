@@ -1,6 +1,6 @@
 import { ActionState } from "./ActionState";
 
-export type ServerAction = (
+export type FormAction = (
   prevState: ActionState,
   formData: FormData
 ) => Promise<ActionState>;

@@ -11,10 +11,16 @@ export const MesFormGeneral = ({
   onChange,
 }: MesFormGroupProps) => {
   const onWcChange = (wc: string) => {
+    if (!selected) {
+      return;
+    }
     setSelected({ ...selected, wc });
   };
 
   const onDateChange = (date: Date | undefined) => {
+    if (!selected) {
+      return;
+    }
     setSelected({
       ...selected,
       data_ora_inizio: date ?? new Date(),

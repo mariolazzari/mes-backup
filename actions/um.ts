@@ -2,7 +2,7 @@
 import { query } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { actionError, generalError, noActionError } from "@/lib/error";
-import { ServerAction, Um } from "@/types";
+import { FormAction, Um } from "@/types";
 import { delCache, getCache, setCache } from "@/lib/cache";
 
 const CACHE_KEY = "um:list";
@@ -19,7 +19,7 @@ export async function getUms(): Promise<Um[]> {
   return ums;
 }
 
-export const saveUm: ServerAction = async (_prevState, formData) => {
+export const saveUm: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Um>("cod", "Codice unità di misura non valido");
@@ -65,7 +65,7 @@ export const saveUm: ServerAction = async (_prevState, formData) => {
   }
 };
 
-export const deleteUm: ServerAction = async (_prevState, formData) => {
+export const deleteUm: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Um>("cod", "Codice unità di misura non valido");

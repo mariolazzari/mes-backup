@@ -15,7 +15,7 @@ type MesFormMode = "insert" | "update" | "clone";
 
 export type MesFormProps = {
   mode: MesFormMode;
-  mes: Partial<Mes>;
+  mes?: Mes;
   wcs: WorkCenter[];
   scraps: Scrap[];
   disabled?: boolean;
@@ -29,8 +29,8 @@ export type MesStatusProps = {
 };
 
 export type MesFormGroupProps = {
-  selected: Partial<Mes>;
-  setSelected: Dispatch<SetStateAction<Partial<Mes>>>;
+  selected?: Mes;
+  setSelected: Dispatch<SetStateAction<Mes | undefined>>;
   onChange: ChangeEventHandler<HTMLInputElement>;
 } & Partial<{
   wcs: WorkCenter[];

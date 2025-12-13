@@ -38,9 +38,9 @@ export function DatePicker({
           <Button
             variant="outline"
             id="date-picker"
-            className="w-32 justify-between font-normal"
+            className="w-auto justify-between font-normal"
           >
-            {value ? value.toLocaleDateString() : "Seleziona una data"}
+            {value ? value.toLocaleDateString() : "Seleziona data"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>

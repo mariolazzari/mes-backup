@@ -3,7 +3,7 @@ import { delCache, setCache } from "@/lib/cache";
 import { query } from "@/lib/db";
 import { actionError, generalError, noActionError } from "@/lib/error";
 import { Scrap } from "@/types/Scrap";
-import { ServerAction } from "@/types/ServerAction";
+import { FormAction } from "@/types/FormAction";
 import { revalidatePath } from "next/cache";
 
 const CACHE_KEY = "scraps:list";
@@ -18,7 +18,7 @@ export async function getScraps(): Promise<Scrap[]> {
   return scraps;
 }
 
-export const saveScrap: ServerAction = async (_prevState, formData) => {
+export const saveScrap: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Scrap>("cod", "Codice unità di misura non valido");
@@ -64,7 +64,7 @@ export const saveScrap: ServerAction = async (_prevState, formData) => {
   }
 };
 
-export const deleteScrap: ServerAction = async (_prevState, formData) => {
+export const deleteScrap: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<Scrap>("cod", "Codice causale scarto non valido");

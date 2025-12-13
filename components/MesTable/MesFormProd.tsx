@@ -1,7 +1,12 @@
+"use client";
+import { useCallback } from "react";
 import { MesFormGroupProps } from ".";
 import { ComboBox } from "../ComboBox/ComboBox";
+import { TimePicker } from "../Pickers";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "@/components/ui/input";
+import { formatHoursAndMinutes } from "@/lib/date";
+import { Badge } from "../ui/badge";
 
 export const MesFormProd = ({
   selected,
@@ -9,8 +14,34 @@ export const MesFormProd = ({
   onChange,
   scraps = [],
 }: MesFormGroupProps) => {
-  const onScrapChange = (scrap: string) => {
-    setSelected({ ...selected, hu_scarto: scrap });
+  const getDuration = useCallback(() => {
+    if (!selected) {
+      return "";
+    }
+    const { data_ora_inizio, data_ora_fine } = selected;
+
+    return formatHoursAndMinutes(data_ora_inizio, data_ora_fine);
+  }, [selected]);
+
+  const onScrapChange = (hu_scarto: string) => {
+    if (!selected) {
+      return;
+    }
+    setSelected({ ...selected, hu_scarto });
+  };
+
+  const onStartChange = (date?: Date) => {
+    if (!selected || !date) {
+      return;
+    }
+    setSelected({ ...selected, data_ora_inizio: date });
+  };
+
+  const onEndChange = (date?: Date) => {
+    if (!selected || !date) {
+      return;
+    }
+    setSelected({ ...selected, data_ora_fine: date });
   };
 
   return (
@@ -19,8 +50,8 @@ export const MesFormProd = ({
         <Field className="flex-2">
           <FieldLabel htmlFor="item">Prodotto</FieldLabel>
           <Input
-            id="item"
-            name="item"
+            id="prodotto"
+            name="prodotto"
             value={selected?.prodotto ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
@@ -61,15 +92,14 @@ export const MesFormProd = ({
         </Field>
 
         <Field className="flex-1">
-          <FieldLabel htmlFor="hu_prod_ok">Qtà HU versata</FieldLabel>
+          <FieldLabel htmlFor="hu_prod_ok">Qtà scartata</FieldLabel>
           <Input
             type="number"
-            id="hu_prod_ok"
-            name="hu_prod_ok"
-            value={selected?.hu_prod_ok ?? 0}
+            id="qta_scartata"
+            name="qta_scartata"
+            value={selected?.qta_scartata ?? 0}
             onChange={onChange}
             className="border p-2 w-full rounded"
-            required
             min={0}
             step={0.001}
           />
@@ -91,37 +121,46 @@ export const MesFormProd = ({
         </Field>
 
         <Field className="flex-1">
-          <FieldLabel htmlFor="qta_scartata">Qtà scartata</FieldLabel>
-          <Input
-            type="number"
-            id="qta_scartata"
-            name="qta_scartata"
-            value={selected?.qta_scartata ?? 0}
-            onChange={onChange}
-            className="border p-2 w-full rounded"
-            min={0}
-            step={0.001}
+          <FieldLabel htmlFor="hu_scarto">Causale scarto</FieldLabel>
+          <ComboBox
+            name="hu_scarto"
+            items={scraps.map(sc => ({
+              label: sc.descrizione,
+              value: sc.cod,
+            }))}
+            placeholder="Causale scarto"
+            value={selected?.hu_scarto ?? ""}
+            onChange={onScrapChange}
           />
           <FieldError></FieldError>
         </Field>
       </div>
 
-      <Field className="flex-1">
-        <FieldLabel htmlFor="hu_scarto">Causale scarto</FieldLabel>
-        <ComboBox
-          name="hu_scarto"
-          items={scraps.map(sc => ({
-            label: sc.descrizione,
-            value: sc.cod,
-          }))}
-          placeholder="Causale scarto"
-          value={selected?.hu_scarto ?? ""}
-          onChange={onScrapChange}
-        />
-        <FieldError></FieldError>
-      </Field>
+      <div className="flex items-center gap-2">
+        <Field className="flex-1">
+          <TimePicker
+            label="Inizio"
+            value={selected?.data_ora_inizio}
+            onChange={onStartChange}
+          />
+          <FieldError></FieldError>
+        </Field>
+        <Field className="flex-1">
+          <TimePicker
+            label="Fine"
+            value={selected?.data_ora_fine}
+            onChange={onEndChange}
+          />
+          <FieldError></FieldError>
+        </Field>
 
-      <div></div>
+        <Field className="flex-2">
+          <FieldLabel htmlFor="hu_scarto">Tempo</FieldLabel>
+          <Badge variant="secondary" className="p-2 font-semibold">
+            {getDuration()}
+          </Badge>
+        </Field>
+      </div>
     </FieldGroup>
   );
 };

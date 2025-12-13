@@ -4,7 +4,7 @@ export * from "./Mes";
 export * from "./PageProps";
 export * from "./Payload";
 export * from "./Scrap";
-export * from "./ServerAction";
+export * from "./FormAction";
 export * from "./Um";
 export * from "./User";
 export * from "./WorkCenter";

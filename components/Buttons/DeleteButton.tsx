@@ -2,8 +2,9 @@
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw, Trash2 } from "lucide-react";
+import { ComponentProps } from "react";
 
-export function DeleteButton() {
+export function DeleteButton(props: ComponentProps<"button">) {
   const { pending } = useFormStatus();
 
   return (
@@ -12,6 +13,7 @@ export function DeleteButton() {
       variant="destructive"
       type="submit"
       disabled={pending}
+      {...props}
     >
       {pending ? <RefreshCcw className="animate-spin" /> : <Trash2 />}Elimina
     </Button>

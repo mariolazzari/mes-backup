@@ -6,7 +6,7 @@ import {
   getErrorMessage,
   noActionError,
 } from "@/lib/error";
-import { ActionState } from "@/types/ActionState";
+import { FormAction } from "@/types";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
 
@@ -134,7 +134,7 @@ export async function saveMes(mes: Mes) {
   }
 }
 
-export async function deleteMes(_prevState: ActionState, formData: FormData) {
+export const deleteMes: FormAction = async (_prevState, formData) => {
   const id = Number(formData.get("id"));
   if (!id || typeof id !== "number") {
     return actionError<Mes>("id", "ID produzione non valido");
@@ -142,16 +142,15 @@ export async function deleteMes(_prevState: ActionState, formData: FormData) {
 
   try {
     await query("Update prod set hold=true WHERE id = $1", [id]);
-
     revalidatePath("/mes");
 
     return noActionError();
   } catch (ex) {
-    return generalError(ex, "Errore cancellazione produzione:");
+    return generalError(ex, "Errore elimina produzione:");
   }
-}
+};
 
-export async function restoreMes(_prevState: ActionState, formData: FormData) {
+export const restoreMes: FormAction = async (_prevState, formData) => {
   const id = Number(formData.get("id"));
   if (!id || typeof id !== "number") {
     return actionError<Mes>("id", "ID produzione non valido");
@@ -159,11 +158,10 @@ export async function restoreMes(_prevState: ActionState, formData: FormData) {
 
   try {
     await query("Update prod set hold=false WHERE id = $1", [id]);
-
     revalidatePath("/mes");
 
     return noActionError();
   } catch (ex) {
     return generalError(ex, "Errore recupero produzione:");
   }
-}
+};

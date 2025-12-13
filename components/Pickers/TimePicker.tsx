@@ -5,7 +5,11 @@ import { Label } from "../ui/label";
 import { TimePickerProps } from ".";
 import { ChangeEventHandler } from "react";
 
-export function TimePicker({ value, onChange }: TimePickerProps) {
+export function TimePicker({
+  label = "Ora",
+  value,
+  onChange,
+}: TimePickerProps) {
   const onTimeChange: ChangeEventHandler<HTMLInputElement> = e => {
     const t = e.target.value;
     if (!t) return;
@@ -23,7 +27,7 @@ export function TimePicker({ value, onChange }: TimePickerProps) {
   return (
     <div className="flex flex-col gap-3">
       <Label htmlFor="time-picker" className="px-1">
-        Ora
+        {label}
       </Label>
       <Input
         className="bg-background w-24"

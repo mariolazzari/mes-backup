@@ -36,7 +36,7 @@ export function MesForm({
   disabled = false,
 }: MesFormProps) {
   const [isProd, setProd] = useState(true);
-  const [selected, setSelected] = useState<Partial<Mes>>({});
+  const [selected, setSelected] = useState<Mes | undefined>(undefined);
 
   const renderIcon = useCallback(() => {
     switch (mode) {
@@ -53,6 +53,10 @@ export function MesForm({
   }, [mode]);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = e => {
+    if (!selected) {
+      return;
+    }
+
     const { name, value } = e.target;
     setSelected({ ...selected, [name]: value });
   };

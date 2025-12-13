@@ -7,6 +7,7 @@ export type DatePickerProps = Partial<{
 }>;
 
 export type TimePickerProps = Partial<{
+  label: string;
   value: Date;
   onChange: OnDateChange;
 }>;

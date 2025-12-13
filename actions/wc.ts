@@ -2,7 +2,7 @@
 import { query } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { actionError, generalError, noActionError } from "@/lib/error";
-import { ServerAction, WorkCenter } from "@/types";
+import { FormAction, WorkCenter } from "@/types";
 import { delCache, setCache } from "@/lib/cache";
 
 const CACHE_KEY = "wc:list";
@@ -17,7 +17,7 @@ export async function getWorkCenters(): Promise<WorkCenter[]> {
   return wcs;
 }
 
-export const saveWorkCenter: ServerAction = async (_prevState, formData) => {
+export const saveWorkCenter: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<WorkCenter>("cod", "Codice centro di lavoro non valido");
@@ -62,7 +62,7 @@ export const saveWorkCenter: ServerAction = async (_prevState, formData) => {
   }
 };
 
-export const deleteWorkCenter: ServerAction = async (_prevState, formData) => {
+export const deleteWorkCenter: FormAction = async (_prevState, formData) => {
   const cod = formData.get("cod");
   if (!cod || typeof cod !== "string") {
     return actionError<WorkCenter>("cod", "Codice centro di lavoro non valido");

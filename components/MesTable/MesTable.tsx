@@ -16,7 +16,10 @@ export const MesTable = ({
   page,
   size,
 }: MesTableProps) => {
-  const [selected, setSelected] = useState<Partial<Mes>>({});
+  const [selected, setSelected] = useState<Mes | undefined>(undefined);
+
+  const validSelected =
+    selected && mes.some(m => m.id === selected.id) ? selected : undefined;
 
   const columns: ColumnDef<Mes>[] = [
     {
@@ -73,8 +76,8 @@ export const MesTable = ({
       <MesBar
         wcs={wcs}
         scraps={scraps}
-        selected={selected}
-        disableActions={!!!selected.id}
+        selected={validSelected}
+        disableActions={!validSelected?.id}
       />
       <DataTable
         columns={columns}
@@ -85,7 +88,6 @@ export const MesTable = ({
         onClick={setSelected}
         onPageChange={onPageChange}
       />
-      ;
     </div>
   );
 };

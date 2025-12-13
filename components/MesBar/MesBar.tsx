@@ -13,13 +13,7 @@ export const MesBar = ({
 }: MesBarProps) => {
   return (
     <div className="flex xs:scale-75">
-      <MesForm
-        mode="insert"
-        wcs={wcs}
-        scraps={scraps}
-        mes={{}}
-        disabled={false}
-      />
+      <MesForm mode="insert" wcs={wcs} scraps={scraps} disabled={false} />
       <MesForm
         mode="update"
         wcs={wcs}
@@ -35,8 +29,8 @@ export const MesBar = ({
         disabled={disableActions}
       />
       <ExcelDialog />
-      <RestoreDialog />
-      <DeleteDialog />
+      <RestoreDialog mes={selected} disabled={disableActions} />
+      <DeleteDialog mes={selected} disabled={disableActions} />
     </div>
   );
 };
