@@ -29,8 +29,15 @@ export function DataTable<T>({
   add,
   searchField,
   searchPlaceholder = "Cerca...",
+  pageSizeOptions = [5, 10, 25, 50, 100],
+  page = 0,
+  size = 10,
+  total,
   onClick,
+  onPageChange,
 }: DataTableProps<T>) {
+  const [pageIndex, setPageIndex] = useState(page);
+  const [pageSize, setPageSize] = useState(size);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -40,6 +47,7 @@ export function DataTable<T>({
   const table = useReactTable({
     data,
     columns,
+    pageCount: Math.ceil(total ?? data.length / pageSize),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -53,6 +61,19 @@ export function DataTable<T>({
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: { pageIndex, pageSize },
+    },
+    manualPagination: !!onPageChange,
+    onPaginationChange: updater => {
+      const newPagination =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
+      setPageIndex(newPagination.pageIndex);
+      setPageSize(newPagination.pageSize);
+
+      // raise event
+      onPageChange?.(newPagination.pageIndex, newPagination.pageSize);
     },
   });
 
@@ -114,7 +135,7 @@ export function DataTable<T>({
             )}
           </TableBody>
         </Table>
-        <Pagination table={table} />
+        <Pagination table={table} pageSizeOptions={pageSizeOptions} />
       </div>
     </div>
   );

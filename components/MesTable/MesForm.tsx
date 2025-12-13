@@ -28,7 +28,13 @@ import { saveMes } from "@/actions/mes";
 import { MesFormProd } from "./MesFormProd";
 import { MesFormCons } from "./MesFormCons";
 
-export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
+export function MesForm({
+  mode,
+  mes,
+  wcs,
+  scraps,
+  disabled = false,
+}: MesFormProps) {
   const [isProd, setProd] = useState(true);
   const [selected, setSelected] = useState<Partial<Mes>>({});
 
@@ -122,6 +128,7 @@ export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
                 selected={selected}
                 setSelected={setSelected}
                 onChange={onChange}
+                scraps={scraps}
               />
             ) : (
               <MesFormCons

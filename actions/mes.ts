@@ -1,5 +1,4 @@
 "use server";
-import { delCache, setCache } from "@/lib/cache";
 import { query } from "@/lib/db";
 import {
   actionError,
@@ -11,14 +10,23 @@ import { ActionState } from "@/types/ActionState";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
 
-const CACHE_KEY = "prods:list";
+type GetProds = (
+  page?: number,
+  pageSize?: number
+) => Promise<{ prods: Mes[]; total: number }>;
 
-export async function getProds(): Promise<Mes[]> {
-  const prods = await query<Mes>("SELECT * FROM prod order by id desc", []);
-  await setCache(CACHE_KEY, prods);
+export const getProds: GetProds = async (page = 1, pageSize = 10) => {
+  const offset = (page - 1) * pageSize;
+  const [prods, totals] = await Promise.all([
+    query<Mes>("SELECT * FROM prod ORDER BY id DESC LIMIT $1 OFFSET $2", [
+      pageSize,
+      offset,
+    ]),
+    query<{ total: string }>("SELECT count(id) as total FROM prod", []),
+  ]);
 
-  return prods;
-}
+  return { prods, total: +totals[0].total };
+};
 
 export async function saveMes(mes: Mes) {
   try {
@@ -116,7 +124,6 @@ export async function saveMes(mes: Mes) {
         ]
       );
     }
-    await delCache(CACHE_KEY);
 
     revalidatePath("/mes");
 
@@ -128,14 +135,13 @@ export async function saveMes(mes: Mes) {
 }
 
 export async function deleteMes(_prevState: ActionState, formData: FormData) {
-  const id = formData.get("id");
+  const id = Number(formData.get("id"));
   if (!id || typeof id !== "number") {
     return actionError<Mes>("id", "ID produzione non valido");
   }
 
   try {
     await query("Update prod set hold=true WHERE id = $1", [id]);
-    await delCache(CACHE_KEY);
 
     revalidatePath("/mes");
 
@@ -146,14 +152,13 @@ export async function deleteMes(_prevState: ActionState, formData: FormData) {
 }
 
 export async function restoreMes(_prevState: ActionState, formData: FormData) {
-  const id = formData.get("id");
+  const id = Number(formData.get("id"));
   if (!id || typeof id !== "number") {
     return actionError<Mes>("id", "ID produzione non valido");
   }
 
   try {
     await query("Update prod set hold=false WHERE id = $1", [id]);
-    await delCache(CACHE_KEY);
 
     revalidatePath("/mes");
 

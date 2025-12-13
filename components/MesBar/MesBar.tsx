@@ -5,19 +5,32 @@ import { DeleteDialog } from "../DeleteDialog";
 import { MesForm } from "../MesTable";
 import { MesBarProps } from ".";
 
-export const MesBar = ({ wcs, selected, disableActions }: MesBarProps) => {
+export const MesBar = ({
+  wcs,
+  scraps,
+  selected,
+  disableActions,
+}: MesBarProps) => {
   return (
-    <div className="flex">
-      <MesForm mode="insert" wcs={wcs} mes={{}} disabled={false} />
+    <div className="flex xs:scale-75">
+      <MesForm
+        mode="insert"
+        wcs={wcs}
+        scraps={scraps}
+        mes={{}}
+        disabled={false}
+      />
       <MesForm
         mode="update"
         wcs={wcs}
+        scraps={scraps}
         mes={selected}
         disabled={disableActions}
       />
       <MesForm
         mode="clone"
         wcs={wcs}
+        scraps={scraps}
         mes={selected}
         disabled={disableActions}
       />

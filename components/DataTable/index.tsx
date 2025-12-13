@@ -6,14 +6,26 @@ export type DataTableProps<T> = {
   data: T[];
 } & Partial<HeaderProps<T>>;
 
+export type OnPageChange = (page: number, size: number) => void;
+
 export type HeaderProps<T> = {
   table: Table<T>;
-  add: ReactNode;
 } & Partial<{
-  searchField?: keyof T;
-  searchPlaceholder?: string;
+  add: ReactNode;
+  searchField: keyof T;
+  searchPlaceholder: string;
+  pageSizeOptions: number[];
   onClick: (row: T) => void;
+  onPageChange: OnPageChange;
+  page: number;
+  size: number;
+  total: number;
 }>;
+
+export type PaginationProps<TData> = {
+  table: Table<TData>;
+  pageSizeOptions: number[];
+};
 
 export * from "./ColumnHeader";
 export * from "./DataTable";

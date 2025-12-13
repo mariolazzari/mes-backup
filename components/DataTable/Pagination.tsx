@@ -1,4 +1,3 @@
-import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,18 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PaginationProps } from ".";
 
-type PaginationProps<TData> = {
-  table: Table<TData>;
-};
-
-export function Pagination<TData>({ table }: PaginationProps<TData>) {
+export function Pagination<TData>({
+  table,
+  pageSizeOptions,
+}: PaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="text-muted-foreground flex-1 text-sm">
-        {table.getFilteredSelectedRowModel().rows.length} di{" "}
-        {table.getFilteredRowModel().rows.length} selezionate
-      </div>
+    <div className="flex items-center justify-end p-2 border-t">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Righe per pagina</p>
@@ -35,11 +30,11 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[70px]">
+            <SelectTrigger className="h-8 w-20">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[5, 10, 25, 50, 100].map(pageSize => (
+              {pageSizeOptions.map(pageSize => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -47,8 +42,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Pagina {table.getState().pagination.pageIndex + 1} di{" "}
+        <div className="flex w-25 items-center justify-center text-sm font-medium">
+          Pagina {table.getState().pagination.pageIndex}
+          {"/"}
           {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
@@ -59,7 +55,6 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
           </Button>
           <Button
@@ -69,7 +64,6 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to previous page</span>
             <ChevronLeft />
           </Button>
           <Button
@@ -79,7 +73,6 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to next page</span>
             <ChevronRight />
           </Button>
           <Button
@@ -89,7 +82,6 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to last page</span>
             <ChevronsRight />
           </Button>
         </div>

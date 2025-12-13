@@ -1,5 +1,4 @@
-import { ChangeEventHandler } from "react";
-import { MesFormGeneralProps } from ".";
+import { MesFormGroupProps } from ".";
 import { ComboBox } from "../ComboBox/ComboBox";
 import { DatePicker, TimePicker } from "../Pickers";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
@@ -8,9 +7,9 @@ import { Input } from "../ui/input";
 export const MesFormGeneral = ({
   selected,
   setSelected,
-  wcs,
+  wcs = [],
   onChange,
-}: MesFormGeneralProps) => {
+}: MesFormGroupProps) => {
   const onWcChange = (wc: string) => {
     setSelected({ ...selected, wc });
   };

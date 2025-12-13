@@ -1,6 +1,6 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ColumnHeader, DataTable } from "../DataTable";
+import { ColumnHeader, DataTable, OnPageChange } from "../DataTable";
 import { MesTableProps } from ".";
 import { Mes } from "@/types/Mes";
 import { formatDateTime } from "@/lib/date";
@@ -8,7 +8,14 @@ import { useState } from "react";
 import { MesBar } from "../MesBar";
 import { Checkbox } from "../ui/checkbox";
 
-export const MesTable = ({ mes, wcs }: MesTableProps) => {
+export const MesTable = ({
+  mes,
+  wcs,
+  scraps,
+  total,
+  page,
+  size,
+}: MesTableProps) => {
   const [selected, setSelected] = useState<Partial<Mes>>({});
 
   const columns: ColumnDef<Mes>[] = [
@@ -57,10 +64,28 @@ export const MesTable = ({ mes, wcs }: MesTableProps) => {
     },
   ];
 
+  const onPageChange: OnPageChange = (page, size) => {
+    console.log("first", page, size);
+  };
+
   return (
-    <div className="w-full flex flex-col items-center">
-      <MesBar wcs={wcs} selected={selected} disableActions={!!!selected.id} />
-      <DataTable columns={columns} data={mes} onClick={setSelected} />;
+    <div className="w-full flex flex-col items-center xs:scale-75">
+      <MesBar
+        wcs={wcs}
+        scraps={scraps}
+        selected={selected}
+        disableActions={!!!selected.id}
+      />
+      <DataTable
+        columns={columns}
+        data={mes}
+        page={page}
+        size={size}
+        total={total}
+        onClick={setSelected}
+        onPageChange={onPageChange}
+      />
+      ;
     </div>
   );
 };
