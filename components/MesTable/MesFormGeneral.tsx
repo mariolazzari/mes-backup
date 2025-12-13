@@ -9,12 +9,8 @@ export const MesFormGeneral = ({
   selected,
   setSelected,
   wcs,
+  onChange,
 }: MesFormGeneralProps) => {
-  const onChange: ChangeEventHandler<HTMLInputElement> = e => {
-    const { name, value } = e.target;
-    setSelected({ ...selected, [name]: value });
-  };
-
   const onWcChange = (wc: string) => {
     setSelected({ ...selected, wc });
   };

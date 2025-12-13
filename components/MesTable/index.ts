@@ -1,6 +1,6 @@
 import { WorkCenter } from "@/types";
 import { Mes } from "@/types/Mes";
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEventHandler, Dispatch, SetStateAction } from "react";
 
 export type MesTableProps = {
   mes: Mes[];
@@ -26,6 +26,7 @@ export type MesStatusProps = {
 export type MesFormGroupProps = {
   selected: Partial<Mes>;
   setSelected: Dispatch<SetStateAction<Partial<Mes>>>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
 export type MesFormGeneralProps = MesFormGroupProps & {

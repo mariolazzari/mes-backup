@@ -1,5 +1,11 @@
 "use client";
-import { FormEventHandler, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -39,6 +45,11 @@ export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
         throw new Error(`Mode ${missingMode} not supported`);
     }
   }, [mode]);
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = e => {
+    const { name, value } = e.target;
+    setSelected({ ...selected, [name]: value });
+  };
 
   const onFormSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
@@ -103,12 +114,21 @@ export function MesForm({ mode, mes, wcs, disabled = false }: MesFormProps) {
               selected={selected}
               setSelected={setSelected}
               wcs={wcs}
+              onChange={onChange}
             />
 
             {isProd ? (
-              <MesFormProd selected={selected} setSelected={setSelected} />
+              <MesFormProd
+                selected={selected}
+                setSelected={setSelected}
+                onChange={onChange}
+              />
             ) : (
-              <MesFormCons selected={selected} setSelected={setSelected} />
+              <MesFormCons
+                selected={selected}
+                setSelected={setSelected}
+                onChange={onChange}
+              />
             )}
           </div>
 

@@ -1,14 +1,17 @@
-import { ChangeEventHandler } from "react";
 import { MesFormGroupProps } from ".";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-export const MesFormCons = ({ selected, setSelected }: MesFormGroupProps) => {
-  const onChange: ChangeEventHandler<HTMLInputElement> = e => {
-    const { name, value } = e.target;
-    setSelected({ ...selected, [name]: value });
-  };
-
+export const MesFormCons = ({
+  selected,
+  setSelected,
+  onChange,
+}: MesFormGroupProps) => {
   return (
     <FieldGroup>
       <Field>
