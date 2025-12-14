@@ -1,20 +1,8 @@
-import {
-  format,
-  FormatOptions,
-  formatDistance,
-  FormatDistanceStrictOptions,
-  differenceInMinutes,
-} from "date-fns";
+import { format, FormatOptions, differenceInMinutes } from "date-fns";
 import { it } from "date-fns/locale";
 
 const formatOpts: FormatOptions = {
   locale: it,
-};
-
-const distanceOpts: FormatDistanceStrictOptions = {
-  locale: it,
-  addSuffix: true,
-  unit: "minute",
 };
 
 export function formatTimestamp(timestamp: number): string {

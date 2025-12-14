@@ -7,16 +7,11 @@ import { formatDateTime } from "@/lib/date";
 import { useState } from "react";
 import { MesBar } from "../MesBar";
 import { Checkbox } from "../ui/checkbox";
+import { useRouter } from "next/navigation";
 
-export const MesTable = ({
-  mes,
-  wcs,
-  scraps,
-  total,
-  page,
-  size,
-}: MesTableProps) => {
+export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
   const [selected, setSelected] = useState<Mes | undefined>(undefined);
+  const router = useRouter();
 
   const validSelected =
     selected && mes.some(m => m.id === selected.id) ? selected : undefined;
@@ -69,16 +64,12 @@ export const MesTable = ({
 
   const onPageChange: OnPageChange = (page, size) => {
     console.log("first", page, size);
+    router.push(`/mes?page=${page + 1}&size=${size}`);
   };
 
   return (
     <div className="w-full flex flex-col items-center xs:scale-75">
-      <MesBar
-        wcs={wcs}
-        scraps={scraps}
-        selected={validSelected}
-        disableActions={!validSelected?.id}
-      />
+      <MesBar selected={validSelected} disableActions={!validSelected?.id} />
       <DataTable
         columns={columns}
         data={mes}

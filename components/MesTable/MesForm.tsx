@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MesFormProps } from ".";
+import { emptyMes, MesFormProps } from ".";
 import { MdAddTask, MdEdit, MdCyclone } from "react-icons/md";
 import { CloseButton, SaveButton } from "../Buttons";
 import { Switch } from "../ui/switch";
@@ -28,15 +28,16 @@ import { saveMes } from "@/actions/mes";
 import { MesFormProd } from "./MesFormProd";
 import { MesFormCons } from "./MesFormCons";
 
-export function MesForm({
-  mode,
-  mes,
-  wcs,
-  scraps,
-  disabled = false,
-}: MesFormProps) {
+export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
+  const initialSelected =
+    mode === "insert"
+      ? emptyMes
+      : mode === "clone" && mes
+      ? { ...emptyMes, ...mes, id: -1 }
+      : mes || emptyMes;
+
   const [isProd, setProd] = useState(true);
-  const [selected, setSelected] = useState<Mes | undefined>(undefined);
+  const [selected, setSelected] = useState<Mes>(initialSelected);
 
   const renderIcon = useCallback(() => {
     switch (mode) {
@@ -77,11 +78,44 @@ export function MesForm({
   };
 
   useEffect(() => {
-    setSelected(mes);
-  }, [mes]);
+    if (!mes) return;
+
+    if (mode === "update") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelected(mes); // viene chiamato solo se ID cambia
+    }
+
+    if (mode === "clone") {
+      setSelected({ ...mes, id: -1 });
+    }
+
+    if (mode === "insert") {
+      setSelected({
+        id: -1,
+        odp: "",
+        operatore: "",
+        wc: "",
+        fase: "",
+        prodotto: "",
+        um_prod: "MT",
+        qta_prodotta: 0,
+        hu_prod_ok: "",
+        qta_scartata: 0,
+        hu_scarto: "",
+        data_ora_inizio: new Date(),
+        data_ora_fine: new Date(),
+        componente: "",
+        hu_comp: "",
+        flag_hu_comp: "",
+        um_cons: "MT",
+        qta_cons: 0,
+        hold: false,
+      });
+    }
+  }, [mode, mes]);
 
   return (
-    <Dialog>
+    <Dialog key={mode === "insert" ? "insert" : `${mode}-${mes?.id ?? -1}`}>
       <DialogTrigger asChild>
         <Button
           className="w-16 h-16 p-2"
@@ -123,7 +157,6 @@ export function MesForm({
             <MesFormGeneral
               selected={selected}
               setSelected={setSelected}
-              wcs={wcs}
               onChange={onChange}
             />
 
@@ -132,7 +165,6 @@ export function MesForm({
                 selected={selected}
                 setSelected={setSelected}
                 onChange={onChange}
-                scraps={scraps}
               />
             ) : (
               <MesFormCons

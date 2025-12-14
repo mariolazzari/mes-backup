@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ColumnFiltersState,
   flexRender,
@@ -43,11 +43,21 @@ export function DataTable<T>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  // Calculate total pages
+  const pageCount = Math.ceil((total ?? data.length) / pageSize);
+
+  // Clamp pageIndex if it exceeds pageCount
+  useEffect(() => {
+    if (pageIndex >= pageCount && pageCount > 0) {
+      setPageIndex(pageCount - 1);
+    }
+  }, [pageCount, pageIndex]);
+
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
-    pageCount: Math.ceil(total ?? data.length / pageSize),
+    pageCount,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -69,11 +79,20 @@ export function DataTable<T>({
         typeof updater === "function"
           ? updater({ pageIndex, pageSize })
           : updater;
-      setPageIndex(newPagination.pageIndex);
+
+      const newPageCount = Math.ceil(
+        (total ?? data.length) / newPagination.pageSize
+      );
+      const newPageIndex = Math.min(
+        newPagination.pageIndex,
+        Math.max(newPageCount - 1, 0)
+      );
+
+      setPageIndex(newPageIndex);
       setPageSize(newPagination.pageSize);
 
-      // raise event
-      onPageChange?.(newPagination.pageIndex, newPagination.pageSize);
+      // Raise event
+      onPageChange?.(newPageIndex, newPagination.pageSize);
     },
   });
 
@@ -90,18 +109,16 @@ export function DataTable<T>({
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map(header => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>

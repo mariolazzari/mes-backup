@@ -19,19 +19,21 @@ export function Pagination<TData>({
   table,
   pageSizeOptions,
 }: PaginationProps<TData>) {
+  const pageIndex = table.getState().pagination.pageIndex;
+  const pageCount = table.getPageCount();
+
   return (
     <div className="flex items-center justify-end p-2 border-t">
       <div className="flex items-center space-x-6 lg:space-x-8">
+        {/* Page size selector */}
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Righe per pagina</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
-            onValueChange={value => {
-              table.setPageSize(Number(value));
-            }}
+            onValueChange={value => table.setPageSize(Number(value))}
           >
             <SelectTrigger className="h-8 w-20">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent side="top">
               {pageSizeOptions.map(pageSize => (
@@ -42,11 +44,13 @@ export function Pagination<TData>({
             </SelectContent>
           </Select>
         </div>
+
+        {/* Page indicator */}
         <div className="flex w-25 items-center justify-center text-sm font-medium">
-          Pagina {table.getState().pagination.pageIndex}
-          {"/"}
-          {table.getPageCount()}
+          Pagina {pageCount > 0 ? pageIndex + 1 : 0}/{pageCount || 1}
         </div>
+
+        {/* Navigation buttons */}
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -79,7 +83,7 @@ export function Pagination<TData>({
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            onClick={() => table.setPageIndex(pageCount - 1)}
             disabled={!table.getCanNextPage()}
           >
             <ChevronsRight />

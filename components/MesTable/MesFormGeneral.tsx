@@ -1,15 +1,17 @@
 import { MesFormGroupProps } from ".";
 import { ComboBox } from "../ComboBox/ComboBox";
 import { DatePicker, TimePicker } from "../Pickers";
+import { useMes } from "../Providers/MesProvider";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 
 export const MesFormGeneral = ({
   selected,
   setSelected,
-  wcs = [],
   onChange,
 }: MesFormGroupProps) => {
+  const { wcs, ums } = useMes();
+
   const onWcChange = (wc: string) => {
     if (!selected) {
       return;
@@ -27,10 +29,20 @@ export const MesFormGeneral = ({
     });
   };
 
+  const onUmChange = (um: string) => {
+    if (!selected) {
+      return;
+    }
+    setSelected({
+      ...selected,
+      um_prod: um,
+    });
+  };
+
   return (
     <FieldGroup>
-      <div className="flex">
-        <Field className="flex-2">
+      <div className="flex items-center gap-2">
+        <Field className="flex-1">
           <DatePicker
             value={selected?.data_ora_inizio}
             onChange={onDateChange}
@@ -42,6 +54,20 @@ export const MesFormGeneral = ({
           <TimePicker
             value={selected?.data_ora_inizio}
             onChange={onDateChange}
+          />
+          <FieldError></FieldError>
+        </Field>
+
+        <Field className="flex-1">
+          <FieldLabel htmlFor="operatore">UM produzione</FieldLabel>
+          <ComboBox
+            items={ums.map(um => ({
+              label: um.descrizione,
+              value: um.cod,
+            }))}
+            placeholder="Unita di misura"
+            value={selected?.um_prod ?? "MT"}
+            onChange={onUmChange}
           />
           <FieldError></FieldError>
         </Field>
@@ -63,7 +89,6 @@ export const MesFormGeneral = ({
         <Field className="flex-1">
           <FieldLabel htmlFor="wc">Work center</FieldLabel>
           <ComboBox
-            name="wc"
             items={wcs.map(wc => ({
               label: wc.descrizione,
               value: wc.cod,

@@ -7,6 +7,7 @@ export type ComboBoxProps = {
   items: ComboBoxItem[];
   onChange: (val: string) => void;
 } & Partial<{
+  label: string;
   name: string;
   placeholder: string;
   value: string;

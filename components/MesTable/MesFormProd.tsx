@@ -1,5 +1,4 @@
 "use client";
-import { useCallback } from "react";
 import { MesFormGroupProps } from ".";
 import { ComboBox } from "../ComboBox/ComboBox";
 import { TimePicker } from "../Pickers";
@@ -7,21 +6,14 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "@/components/ui/input";
 import { formatHoursAndMinutes } from "@/lib/date";
 import { Badge } from "../ui/badge";
+import { useMes } from "../Providers/MesProvider";
 
 export const MesFormProd = ({
   selected,
   setSelected,
   onChange,
-  scraps = [],
 }: MesFormGroupProps) => {
-  const getDuration = useCallback(() => {
-    if (!selected) {
-      return "";
-    }
-    const { data_ora_inizio, data_ora_fine } = selected;
-
-    return formatHoursAndMinutes(data_ora_inizio, data_ora_fine);
-  }, [selected]);
+  const { scraps } = useMes();
 
   const onScrapChange = (hu_scarto: string) => {
     if (!selected) {
@@ -123,7 +115,6 @@ export const MesFormProd = ({
         <Field className="flex-1">
           <FieldLabel htmlFor="hu_scarto">Causale scarto</FieldLabel>
           <ComboBox
-            name="hu_scarto"
             items={scraps.map(sc => ({
               label: sc.descrizione,
               value: sc.cod,
@@ -157,7 +148,12 @@ export const MesFormProd = ({
         <Field className="flex-2">
           <FieldLabel htmlFor="hu_scarto">Tempo</FieldLabel>
           <Badge variant="secondary" className="p-2 font-semibold">
-            {getDuration()}
+            {selected
+              ? formatHoursAndMinutes(
+                  selected.data_ora_inizio,
+                  selected.data_ora_fine
+                )
+              : ""}
           </Badge>
         </Field>
       </div>

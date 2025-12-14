@@ -50,10 +50,9 @@ export async function saveMes(mes: Mes) {
             data_ora_fine   = $13,
             componente      = $14,
             hu_comp         = $15,
-            flag_hu_comp    = $16,
-            um_cons         = $17,
-            qta_cons        = $18,
-            hold            = $19
+            um_cons         = $16,
+            qta_cons        = $17,
+            hold            = $18
           WHERE id = $1
         `,
         [
@@ -72,7 +71,6 @@ export async function saveMes(mes: Mes) {
           mes.data_ora_fine,
           mes.componente,
           mes.hu_comp,
-          mes.flag_hu_comp,
           mes.um_cons,
           mes.qta_cons,
           mes.hold,
@@ -82,26 +80,25 @@ export async function saveMes(mes: Mes) {
       // insert mes
       await query(
         `INSERT INTO prod (
-                      odp,
-                      operatore,
-                      wc,
-                      fase,
-                      prodotto,
-                      um_prod,
-                      qta_prodotta,
-                      hu_prod_ok,
-                      qta_scartata,
-                      hu_scarto,
-                      data_ora_inizio,
-                      data_ora_fine,
-                      componente,
-                      hu_comp,
-                      flag_hu_comp,
-                      um_cons,
-                      qta_cons,
-                      hold
-          )
-          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
+          odp,
+          operatore,
+          wc,
+          fase,
+          prodotto,
+          um_prod,
+          qta_prodotta,
+          hu_prod_ok,
+          qta_scartata,
+          hu_scarto,
+          data_ora_inizio,
+          data_ora_fine,
+          componente,
+          hu_comp,
+          um_cons,
+          qta_cons,
+          hold
+        )
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
         [
           mes.odp,
           mes.operatore,
@@ -117,7 +114,6 @@ export async function saveMes(mes: Mes) {
           mes.data_ora_fine,
           mes.componente,
           mes.hu_comp,
-          mes.flag_hu_comp,
           mes.um_cons,
           mes.qta_cons,
           mes.hold,

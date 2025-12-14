@@ -1,8 +1,6 @@
-import { Mes, Scrap, WorkCenter } from "@/types";
+import { Mes } from "@/types";
 
 export type MesBarProps = {
-  wcs: WorkCenter[];
-  scraps: Scrap[];
   selected?: Mes;
   disableActions: boolean;
 };
