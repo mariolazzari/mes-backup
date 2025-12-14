@@ -8,6 +8,7 @@ import { useState } from "react";
 import { MesBar } from "../MesBar";
 import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 
 export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
   const [selected, setSelected] = useState<Mes | undefined>(undefined);
@@ -24,11 +25,14 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
         const { original } = row;
 
         return (
-          <Checkbox
-            checked={original.id === selected?.id}
-            onCheckedChange={() => setSelected(original)}
-            onClick={e => e.stopPropagation()}
-          />
+          <div className="flex gap-1">
+            <Checkbox
+              checked={original.id === selected?.id}
+              onCheckedChange={() => setSelected(original)}
+              onClick={e => e.stopPropagation()}
+            />
+            {original.hold && <Trash2 size={16} />}
+          </div>
         );
       },
     },
@@ -47,6 +51,21 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
       header: ({ column }) => (
         <ColumnHeader column={column} title="Ordine Prod" />
       ),
+      cell: ({ row }) => {
+        const { original } = row;
+
+        return (
+          <span
+            className={
+              original.prodotto.trim() !== ""
+                ? "text-green-700 font-semibold"
+                : "text-yellow-600 font-semibold"
+            }
+          >
+            {original.odp}
+          </span>
+        );
+      },
     },
     {
       accessorKey: "prodotto",

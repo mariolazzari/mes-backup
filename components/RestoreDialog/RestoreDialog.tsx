@@ -46,7 +46,7 @@ export function RestoreDialog({ mes, disabled }: RestoreDialogProps) {
           <div className="h-24">
             <p>
               Sei sicuro di voler rirpistinare ordine di produzione
-              <span className="mx-1 font-bold">{mes?.odp}</span>?
+              <span className="ml-1 font-bold">{mes?.odp}</span>?
             </p>
             {state.success && (
               <p>
