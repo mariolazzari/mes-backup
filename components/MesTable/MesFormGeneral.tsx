@@ -10,7 +10,7 @@ export const MesFormGeneral = ({
   setSelected,
   onChange,
 }: MesFormGroupProps) => {
-  const { wcs, ums } = useMes();
+  const { wcs } = useMes();
 
   const onWcChange = (wc: string) => {
     if (!selected) {
@@ -29,16 +29,6 @@ export const MesFormGeneral = ({
     });
   };
 
-  const onUmChange = (um: string) => {
-    if (!selected) {
-      return;
-    }
-    setSelected({
-      ...selected,
-      um_prod: um,
-    });
-  };
-
   return (
     <FieldGroup>
       <div className="flex items-center gap-2">
@@ -54,20 +44,6 @@ export const MesFormGeneral = ({
           <TimePicker
             value={selected?.data_ora_inizio}
             onChange={onDateChange}
-          />
-          <FieldError></FieldError>
-        </Field>
-
-        <Field className="flex-1">
-          <FieldLabel htmlFor="operatore">UM produzione</FieldLabel>
-          <ComboBox
-            items={ums.map(um => ({
-              label: um.descrizione,
-              value: um.cod,
-            }))}
-            placeholder="Unita di misura"
-            value={selected?.um_prod ?? "MT"}
-            onChange={onUmChange}
           />
           <FieldError></FieldError>
         </Field>

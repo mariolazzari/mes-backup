@@ -13,13 +13,13 @@ export const MesFormProd = ({
   setSelected,
   onChange,
 }: MesFormGroupProps) => {
-  const { scraps } = useMes();
+  const { scraps, ums } = useMes();
 
-  const onScrapChange = (hu_scarto: string) => {
+  const onScrapChange = (cod_scarto: string) => {
     if (!selected) {
       return;
     }
-    setSelected({ ...selected, hu_scarto });
+    setSelected({ ...selected, cod_scarto });
   };
 
   const onStartChange = (date?: Date) => {
@@ -34,6 +34,16 @@ export const MesFormProd = ({
       return;
     }
     setSelected({ ...selected, data_ora_fine: date });
+  };
+
+  const onUmChange = (um: string) => {
+    if (!selected) {
+      return;
+    }
+    setSelected({
+      ...selected,
+      um_prod: um,
+    });
   };
 
   return (
@@ -120,8 +130,39 @@ export const MesFormProd = ({
               value: sc.cod,
             }))}
             placeholder="Causale scarto"
-            value={selected?.hu_scarto ?? ""}
+            value={selected?.cod_scarto}
             onChange={onScrapChange}
+          />
+          <FieldError></FieldError>
+        </Field>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Field className="flex-2">
+          <FieldLabel htmlFor="operatore">UM produzione</FieldLabel>
+          <ComboBox
+            items={ums.map(um => ({
+              label: um.descrizione,
+              value: um.cod,
+            }))}
+            placeholder="Unita di misura"
+            value={selected?.um_prod ?? "MT"}
+            onChange={onUmChange}
+          />
+          <FieldError></FieldError>
+        </Field>
+
+        <Field className="flex-1">
+          <FieldLabel htmlFor="hu_prod_ok">Numero fili</FieldLabel>
+          <Input
+            type="number"
+            id="nr_fili"
+            name="nr_fili"
+            value={selected?.nr_fili ?? 0}
+            onChange={onChange}
+            className="border p-2 w-full rounded"
+            min={0}
+            step={0.001}
           />
           <FieldError></FieldError>
         </Field>

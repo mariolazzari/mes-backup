@@ -6,9 +6,11 @@ export type Mes = {
   fase: string;
   prodotto: string;
   um_prod: string;
+  nr_fili: number;
   qta_prodotta: number;
   hu_prod_ok: string;
   qta_scartata: number;
+  cod_scarto: string;
   hu_scarto: string;
   data_ora_inizio: Date;
   data_ora_fine: Date;

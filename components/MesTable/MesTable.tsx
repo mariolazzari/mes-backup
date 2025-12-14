@@ -63,7 +63,6 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
   ];
 
   const onPageChange: OnPageChange = (page, size) => {
-    console.log("first", page, size);
     router.push(`/mes?page=${page + 1}&size=${size}`);
   };
 

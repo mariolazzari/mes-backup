@@ -82,7 +82,7 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
 
     if (mode === "update") {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSelected(mes); // viene chiamato solo se ID cambia
+      setSelected(mes);
     }
 
     if (mode === "clone") {
@@ -90,27 +90,7 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
     }
 
     if (mode === "insert") {
-      setSelected({
-        id: -1,
-        odp: "",
-        operatore: "",
-        wc: "",
-        fase: "",
-        prodotto: "",
-        um_prod: "MT",
-        qta_prodotta: 0,
-        hu_prod_ok: "",
-        qta_scartata: 0,
-        hu_scarto: "",
-        data_ora_inizio: new Date(),
-        data_ora_fine: new Date(),
-        componente: "",
-        hu_comp: "",
-        flag_hu_comp: "",
-        um_cons: "MT",
-        qta_cons: 0,
-        hold: false,
-      });
+      setSelected(emptyMes);
     }
   }, [mode, mes]);
 
