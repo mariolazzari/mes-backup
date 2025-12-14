@@ -7,6 +7,7 @@ import { DatePickerProps } from ".";
 import { useState } from "react";
 
 export function DatePicker({
+  label = "Data",
   value,
   onChange,
   isOpen = false,
@@ -31,7 +32,7 @@ export function DatePicker({
   return (
     <div className="flex flex-col gap-3">
       <Label htmlFor="date-picker" className="px-1">
-        Data
+        {label}
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

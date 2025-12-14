@@ -5,11 +5,18 @@ export function DateTimePicker({
   value,
   onChange,
   isOpen = false,
+  dateLabel,
+  timeLabel,
 }: DateTimePickerProps) {
   return (
     <div className="flex gap-4">
-      <DatePicker value={value} onChange={onChange} isOpen={isOpen} />
-      <TimePicker value={value} onChange={onChange} />
+      <DatePicker
+        label={dateLabel}
+        value={value}
+        onChange={onChange}
+        isOpen={isOpen}
+      />
+      <TimePicker label={timeLabel} value={value} onChange={onChange} />
     </div>
   );
 }

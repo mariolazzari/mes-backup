@@ -9,6 +9,7 @@ import {
 import { FormAction } from "@/types";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
+import { endOfToday, startOfToday } from "date-fns";
 
 type GetProds = (
   page?: number,
@@ -26,6 +27,31 @@ export const getProds: GetProds = async (page = 1, pageSize = 10) => {
   ]);
 
   return { prods, total: +totals[0].total };
+};
+
+export const getProdsByDate = async (
+  startDate = startOfToday(),
+  endDate = endOfToday()
+) => {
+  const dateConditions: string[] = [];
+  const params: string[] = [];
+
+  params.push(startDate.toISOString());
+  dateConditions.push(`data_ora_inizio >= $${params.length}`);
+
+  params.push(endDate.toISOString());
+  dateConditions.push(`data_ora_inizio <= $${params.length}`);
+
+  const whereClause = dateConditions.length
+    ? `WHERE ${dateConditions.join(" AND ")}`
+    : "";
+
+  const prods = query<Mes>(
+    `SELECT * FROM prod ${whereClause} ORDER BY id DESC`,
+    params
+  );
+
+  return prods;
 };
 
 export async function saveMes(mes: Mes) {
