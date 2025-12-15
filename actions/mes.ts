@@ -17,10 +17,10 @@ type GetProds = (
 ) => Promise<{ prods: Mes[]; total: number }>;
 
 export const getProds: GetProds = async (page = 1, pageSize = 10) => {
-  const offset = (page - 1) * pageSize;
+  const offset = page < 1 ? 0 : (page - 1) * Math.abs(pageSize);
   const [prods, totals] = await Promise.all([
     query<Mes>("SELECT * FROM prod ORDER BY id DESC LIMIT $1 OFFSET $2", [
-      pageSize,
+      Math.abs(pageSize),
       offset,
     ]),
     query<{ total: string }>("SELECT count(id) as total FROM prod", []),
@@ -54,7 +54,7 @@ export const getProdsByDate = async (
   return prods;
 };
 
-export async function saveMes(mes: Mes) {
+export const saveMes = async (mes: Mes) => {
   try {
     if (mes.id > 0) {
       // update mes
@@ -154,7 +154,7 @@ export async function saveMes(mes: Mes) {
     const error = getErrorMessage(ex);
     return { success: false, error };
   }
-}
+};
 
 export const deleteMes: FormAction = async (_prevState, formData) => {
   const id = Number(formData.get("id"));

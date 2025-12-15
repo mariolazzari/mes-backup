@@ -11,4 +11,5 @@ export type ComboBoxProps = {
   name: string;
   placeholder: string;
   value: string;
+  defaultValue: string;
 }>;

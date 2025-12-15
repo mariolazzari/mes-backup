@@ -12,6 +12,7 @@ export const MesFormProd = ({
   selected,
   setSelected,
   onChange,
+  autoFocus,
 }: MesFormGroupProps) => {
   const { scraps, ums } = useMes();
 
@@ -54,7 +55,7 @@ export const MesFormProd = ({
           <Input
             id="prodotto"
             name="prodotto"
-            value={selected?.prodotto ?? ""}
+            value={selected?.prodotto.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required
@@ -74,6 +75,7 @@ export const MesFormProd = ({
             required
             min={0}
             step={0.001}
+            autoFocus={autoFocus === "qta_prodotta"}
           />
           <FieldError></FieldError>
         </Field>
@@ -85,7 +87,7 @@ export const MesFormProd = ({
           <Input
             id="hu_comp"
             name="hu_comp"
-            value={selected?.hu_comp ?? ""}
+            value={selected?.hu_comp.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required
@@ -115,7 +117,7 @@ export const MesFormProd = ({
           <Input
             id="hu_scarto"
             name="hu_scarto"
-            value={selected?.hu_scarto ?? ""}
+            value={selected?.hu_scarto.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
           />
@@ -146,7 +148,7 @@ export const MesFormProd = ({
               value: um.cod,
             }))}
             placeholder="Unita di misura"
-            value={selected?.um_prod ?? "MT"}
+            value={selected?.um_prod}
             onChange={onUmChange}
           />
           <FieldError></FieldError>

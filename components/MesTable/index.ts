@@ -24,10 +24,12 @@ export type MesStatusProps = {
 };
 
 export type MesFormGroupProps = {
-  selected?: Mes;
   setSelected: Dispatch<SetStateAction<Mes>>;
   onChange: ChangeEventHandler<HTMLInputElement>;
-};
+} & Partial<{
+  selected: Mes;
+  autoFocus: keyof Mes;
+}>;
 
 export const emptyMes: Mes = {
   id: -1,

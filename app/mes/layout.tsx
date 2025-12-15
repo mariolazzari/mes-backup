@@ -14,7 +14,6 @@ function MesLayout({ children }: Layout) {
   return (
     <Providers>
       <SideBar />
-
       <div className="flex flex-col w-full h-[calc(100dvh-50px)] overflow-y-auto">
         <AppBar />
         <main>{children}</main>

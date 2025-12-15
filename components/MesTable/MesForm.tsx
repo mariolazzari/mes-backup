@@ -36,7 +36,7 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
       ? { ...emptyMes, ...mes, id: -1 }
       : mes || emptyMes;
 
-  const [isProd, setProd] = useState(true);
+  const [isProd, setProd] = useState(false);
   const [selected, setSelected] = useState<Mes>(initialSelected);
 
   const renderIcon = useCallback(() => {
@@ -78,19 +78,20 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
   };
 
   useEffect(() => {
-    if (!mes) return;
-
-    if (mode === "update") {
+    if (mode === "update" && mes) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelected(mes);
+      setProd(mes.prodotto.trim() !== "");
     }
 
-    if (mode === "clone") {
+    if (mode === "clone" && mes) {
       setSelected({ ...mes, id: -1 });
+      setProd(mes.prodotto.trim() !== "");
     }
 
     if (mode === "insert") {
       setSelected(emptyMes);
+      setProd(true);
     }
   }, [mode, mes]);
 
@@ -145,12 +146,14 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
                 selected={selected}
                 setSelected={setSelected}
                 onChange={onChange}
+                autoFocus={mode === "clone" ? "qta_prodotta" : undefined}
               />
             ) : (
               <MesFormCons
                 selected={selected}
                 setSelected={setSelected}
                 onChange={onChange}
+                autoFocus={mode === "clone" ? "componente" : undefined}
               />
             )}
           </div>

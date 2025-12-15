@@ -24,7 +24,7 @@ function HomePage() {
             </CardTitle>
             <CardDescription className="text-3xl my-4">Login</CardDescription>
           </CardHeader>
-          <CardContent className="w-[380px] h-20 my-4">
+          <CardContent className="w-96 h-20 my-4">
             <FieldSet>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>

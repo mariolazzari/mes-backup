@@ -1,5 +1,4 @@
-import * as React from "react";
-
+"use client";
 import {
   Select,
   SelectContent,
@@ -17,12 +16,18 @@ export const ComboBox = ({
   placeholder,
   label,
   value,
+  defaultValue,
   onChange,
 }: ComboBoxProps) => {
   console.log("first", value);
 
   return (
-    <Select name={name} value={value} onValueChange={onChange}>
+    <Select
+      name={name}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onChange}
+    >
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

@@ -13,6 +13,7 @@ export const MesFormCons = ({
   selected,
   setSelected,
   onChange,
+  autoFocus,
 }: MesFormGroupProps) => {
   const { ums } = useMes();
 
@@ -34,9 +35,10 @@ export const MesFormCons = ({
           <Input
             id="componente"
             name="componente"
-            value={selected?.componente ?? ""}
+            value={selected?.componente.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
+            autoFocus={autoFocus === "componente"}
             required
           />
           <FieldError></FieldError>
@@ -66,7 +68,7 @@ export const MesFormCons = ({
             className="border p-2 w-full rounded"
             id="hu_comp"
             name="hu_comp"
-            value={selected?.hu_comp ?? ""}
+            value={selected?.hu_comp.trim() ?? ""}
             onChange={onChange}
           />
           <FieldError></FieldError>

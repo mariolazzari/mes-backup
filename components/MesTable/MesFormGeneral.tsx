@@ -83,7 +83,7 @@ export const MesFormGeneral = ({
           <Input
             id="odp"
             name="odp"
-            value={selected?.odp ?? ""}
+            value={selected?.odp.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
           />
@@ -95,7 +95,7 @@ export const MesFormGeneral = ({
           <Input
             id="fase"
             name="fase"
-            value={selected?.fase ?? ""}
+            value={selected?.fase.trim() ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required
