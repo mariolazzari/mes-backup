@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FaRegFileExcel } from "react-icons/fa";
-import { CloseButton, SaveButton } from "../Buttons";
+import { CloseButton, DownloadButton, SearchButton } from "../Buttons";
 import { DateTimePicker } from "../Pickers";
 import { startOfToday, endOfToday } from "date-fns";
 import { FormEventHandler, useState } from "react";
@@ -19,22 +19,10 @@ import { Mes } from "@/types";
 import * as XLSX from "xlsx";
 
 export function ExcelDialog() {
-  const [from, setFrom] = useState(startOfToday());
-  const [to, setTo] = useState(endOfToday());
+  const [from, setFrom] = useState<Date | undefined>(startOfToday());
+  const [to, setTo] = useState<Date | undefined>(endOfToday());
   const [prods, setProds] = useState<Mes[]>([]);
   const [error, setError] = useState("");
-
-  const onFromChange = (date?: Date) => {
-    if (date) {
-      setFrom(date);
-    }
-  };
-
-  const onToChange = (date?: Date) => {
-    if (date) {
-      setTo(date);
-    }
-  };
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
@@ -49,8 +37,10 @@ export function ExcelDialog() {
     }
   };
 
-  const downloadExcel = () => {
-    if (prods.length === 0) return;
+  const onDownloadClick = () => {
+    if (prods.length === 0 || !from || !to) {
+      return;
+    }
 
     // Map Mes objects to a plain object suitable for Excel
     const data = prods.map(prod => ({
@@ -79,14 +69,12 @@ export function ExcelDialog() {
 
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Prodotti");
+    XLSX.utils.book_append_sheet(wb, ws, "Mes");
 
-    XLSX.writeFile(
-      wb,
-      `prodotti_${from.toISOString().split("T")[0]}_to_${
-        to.toISOString().split("T")[0]
-      }.xlsx`
-    );
+    // file name
+    const fromStr = from.toISOString().split("T")[0];
+    const toStr = from.toISOString().split("T")[0];
+    XLSX.writeFile(wb, `mes_${fromStr}_${toStr}.xlsx`);
   };
 
   return (
@@ -110,13 +98,13 @@ export function ExcelDialog() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col items-center my-4 gap-4">
+          <div className="flex flex-col items-center my-4 gap-4 bg-muted p-4 rounded-md">
             <div>
               <DateTimePicker
                 value={from}
                 dateLabel="Data iniziale"
                 timeLabel="Ora iniziale"
-                onChange={onFromChange}
+                onChange={setFrom}
               />
             </div>
             <div>
@@ -124,7 +112,7 @@ export function ExcelDialog() {
                 value={to}
                 dateLabel="Data finale"
                 timeLabel="Ora finale"
-                onChange={onToChange}
+                onChange={setTo}
               />
             </div>
 
@@ -134,16 +122,23 @@ export function ExcelDialog() {
               </h6>
             )}
 
-            <h6 className="text-md">
-              {prods.length > 0
-                ? `${prods.length} records da esportare`
-                : "Non ci sono record da esportare"}
-            </h6>
+            <div className="h-10">
+              {prods.length > 0 ? (
+                <DownloadButton
+                  onClick={onDownloadClick}
+                  disabled={prods.length === 0}
+                >
+                  Scarica ({prods.length})
+                </DownloadButton>
+              ) : (
+                <h6 className="text-md">Non ci sono record da esportare</h6>
+              )}
+            </div>
           </div>
 
           <DialogFooter>
             <CloseButton />
-            <SaveButton onClick={downloadExcel} />
+            <SearchButton />
           </DialogFooter>
         </form>
       </DialogContent>
