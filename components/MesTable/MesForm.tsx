@@ -27,6 +27,7 @@ import { MesFormGeneral } from "./MesFormGeneral";
 import { saveMes } from "@/actions/mes";
 import { MesFormProd } from "./MesFormProd";
 import { MesFormCons } from "./MesFormCons";
+import { useMes } from "../Providers/MesProvider";
 
 export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
   const initialSelected =
@@ -38,6 +39,8 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
 
   const [isProd, setProd] = useState(false);
   const [selected, setSelected] = useState<Mes>(initialSelected);
+
+  const { defaults } = useMes();
 
   const renderIcon = useCallback(() => {
     switch (mode) {
@@ -90,10 +93,14 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
     }
 
     if (mode === "insert") {
+      emptyMes.operatore = defaults?.operatore ?? "";
+      emptyMes.fase = defaults?.fase ?? "0010";
+      emptyMes.wc = defaults?.wc ?? "";
+      emptyMes.odp = defaults?.odp ?? "";
       setSelected(emptyMes);
       setProd(true);
     }
-  }, [mode, mes]);
+  }, [mode, mes, defaults]);
 
   return (
     <Dialog key={mode === "insert" ? "insert" : `${mode}-${mes?.id ?? -1}`}>

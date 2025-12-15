@@ -1,11 +1,12 @@
 "use client";
 import { createContext, PropsWithChildren, useContext } from "react";
-import { Scrap, Um, WorkCenter } from "@/types";
+import { Mes, Scrap, Um, WorkCenter } from "@/types";
 
 type MesDataContextType = {
   wcs: WorkCenter[];
   ums: Um[];
   scraps: Scrap[];
+  defaults: Partial<Mes> | null;
 };
 
 const MesDataContext = createContext<MesDataContextType | null>(null);

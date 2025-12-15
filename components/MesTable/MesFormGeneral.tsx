@@ -56,7 +56,7 @@ export const MesFormGeneral = ({
             className="border p-2 w-full rounded"
             id="operatore"
             name="operatore"
-            value={selected?.operatore ?? ""}
+            value={selected?.operatore.trim()}
             onChange={onChange}
           />
           <FieldError></FieldError>
@@ -91,11 +91,13 @@ export const MesFormGeneral = ({
         </Field>
 
         <Field className="flex-1">
-          <FieldLabel htmlFor="operatore">Fase</FieldLabel>
+          <FieldLabel htmlFor="fase">Fase</FieldLabel>
           <Input
             id="fase"
             name="fase"
-            value={selected?.fase.trim() ?? ""}
+            value={
+              selected?.fase.trim() === "" ? "0010" : selected?.fase.trim()
+            }
             onChange={onChange}
             className="border p-2 w-full rounded"
             required

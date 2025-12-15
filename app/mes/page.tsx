@@ -4,6 +4,8 @@ import { getUms } from "@/actions/um";
 import { getWorkCenters } from "@/actions/wc";
 import { MesTable } from "@/components/MesTable/MesTable";
 import { MesProvider } from "@/components/Providers/MesProvider";
+import { getCache } from "@/lib/cache";
+import { Mes } from "@/types";
 
 export const dynamic = "force-dynamic";
 
@@ -18,16 +20,17 @@ async function MesPage({ searchParams }: MesPageProps) {
   // read search params
   const { page = 1, size = 10 } = await searchParams;
   // load data
-  const [{ prods, total }, wcs, scraps, ums] = await Promise.all([
+  const [{ prods, total }, wcs, scraps, ums, defaults] = await Promise.all([
     getProds(page, size),
     getWorkCenters(),
     getScraps(),
     getUms(),
+    getCache<Partial<Mes>>("mes:last"),
   ]);
 
   return (
     <div className="flex flex-col items-center h-full p-4">
-      <MesProvider value={{ wcs, scraps, ums }}>
+      <MesProvider value={{ wcs, scraps, ums, defaults }}>
         <MesTable mes={prods} page={page} size={size} total={total} />
       </MesProvider>
     </div>

@@ -10,6 +10,9 @@ import { FormAction } from "@/types";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
 import { endOfToday, startOfToday } from "date-fns";
+import { setCache } from "@/lib/cache";
+
+const CACHE_KEY = "mes:last";
 
 type GetProds = (
   page?: number,
@@ -147,6 +150,9 @@ export const saveMes = async (mes: Mes) => {
       );
     }
 
+    // save last defaults
+    const { operatore, wc, data_ora_inizio, fase, odp } = mes;
+    await setCache(CACHE_KEY, { operatore, wc, data_ora_inizio, fase, odp });
     revalidatePath("/mes");
 
     return { success: true, error: "" };
