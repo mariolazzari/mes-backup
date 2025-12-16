@@ -1,7 +1,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ColumnHeader, DataTable, OnPageChange } from "../DataTable";
-import { MesTableProps } from ".";
+import { MesTableProps, SearchDialogArgs } from ".";
 import { Mes } from "@/types/Mes";
 import { formatDateTime } from "@/lib/date";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { MesBar } from "../MesBar";
 import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { SearcDialog } from "./SearchDialog";
 
 export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
   const [selected, setSelected] = useState<Mes | undefined>(undefined);
@@ -85,6 +86,25 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
     router.push(`/mes?page=${page + 1}&size=${size}`);
   };
 
+  const onSearchClick = ({ from, to, odp, prodotto }: SearchDialogArgs) => {
+    let url = `/mes?page=${page}&size=${size}`;
+
+    if (odp) {
+      url += `&odp=${odp}`;
+    }
+    if (prodotto) {
+      url += `&prodotto=${prodotto}`;
+    }
+    if (from) {
+      url += `&from=${from}`;
+    }
+    if (to) {
+      url += `&to=${to}`;
+    }
+
+    router.push(url);
+  };
+
   return (
     <div className="w-full flex flex-col items-center xs:scale-75">
       <MesBar selected={validSelected} disableActions={!validSelected?.id} />
@@ -96,6 +116,7 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
         total={total}
         onClick={setSelected}
         onPageChange={onPageChange}
+        add={<SearcDialog onSearchClick={onSearchClick} />}
       />
     </div>
   );

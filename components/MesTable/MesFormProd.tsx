@@ -129,7 +129,7 @@ export const MesFormProd = ({
           <ComboBox
             items={scraps.map(sc => ({
               label: sc.descrizione,
-              value: sc.cod,
+              value: sc.cod.trim(),
             }))}
             placeholder="Causale scarto"
             value={selected?.cod_scarto}
@@ -145,11 +145,12 @@ export const MesFormProd = ({
           <ComboBox
             items={ums.map(um => ({
               label: um.descrizione,
-              value: um.cod,
+              value: um.cod.trim(),
             }))}
             placeholder="Unita di misura"
             value={selected?.um_prod}
             onChange={onUmChange}
+            required
           />
           <FieldError></FieldError>
         </Field>

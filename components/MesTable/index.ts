@@ -55,4 +55,15 @@ export const emptyMes: Mes = {
   hold: false,
 };
 
+export type SearchDialogArgs = Partial<{
+  from: string;
+  to: string;
+  odp: string;
+  prodotto: string;
+}>;
+
+export type SearchDialogProps = {
+  onSearchClick: (e: SearchDialogArgs) => void;
+};
+
 export * from "./MesForm";

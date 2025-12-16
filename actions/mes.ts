@@ -14,22 +14,78 @@ import { setCache } from "@/lib/cache";
 
 const CACHE_KEY = "mes:last";
 
-type GetProds = (
-  page?: number,
-  pageSize?: number
-) => Promise<{ prods: Mes[]; total: number }>;
-
-export const getProds: GetProds = async (page = 1, pageSize = 10) => {
+export const getProds = async (
+  page = 1,
+  pageSize = 10,
+  from?: string,
+  to?: string,
+  prodotto?: string,
+  odp?: string
+) => {
   const offset = page < 1 ? 0 : (page - 1) * Math.abs(pageSize);
+
+  const conditions: string[] = [];
+  const params: (string | number)[] = [];
+
+  // Filtri data
+  if (from) {
+    params.push(from);
+    conditions.push(`data_ora_inizio >= $${params.length}`);
+  }
+
+  if (to) {
+    params.push(to);
+    conditions.push(`data_ora_inizio <= $${params.length}`);
+  }
+
+  // Filtro prodotto
+  if (prodotto) {
+    params.push(prodotto);
+    conditions.push(`prodotto = $${params.length}`);
+  }
+
+  // Filtro odp
+  if (odp) {
+    params.push(odp);
+    conditions.push(`odp = $${params.length}`);
+  }
+
+  const whereClause = conditions.length
+    ? `WHERE ${conditions.join(" AND ")}`
+    : "";
+
+  console.log(`
+      SELECT *
+      FROM prod
+      ${whereClause}
+      ORDER BY id DESC
+      LIMIT $${params.length + 1}
+      OFFSET $${params.length + 2}
+      `);
+
   const [prods, totals] = await Promise.all([
-    query<Mes>("SELECT * FROM prod ORDER BY id DESC LIMIT $1 OFFSET $2", [
-      Math.abs(pageSize),
-      offset,
-    ]),
-    query<{ total: string }>("SELECT count(id) as total FROM prod", []),
+    query<Mes>(
+      `
+      SELECT *
+      FROM prod
+      ${whereClause}
+      ORDER BY id DESC
+      LIMIT $${params.length + 1}
+      OFFSET $${params.length + 2}
+      `,
+      [...params, Math.abs(pageSize), offset]
+    ),
+    query<{ total: string }>(
+      `
+      SELECT COUNT(id) as total
+      FROM prod
+      ${whereClause}
+      `,
+      params
+    ),
   ]);
 
-  return { prods, total: +totals[0].total };
+  return { prods, total: Number(totals[0].total) };
 };
 
 export const getProdsByDate = async (
@@ -151,8 +207,16 @@ export const saveMes = async (mes: Mes) => {
     }
 
     // save last defaults
-    const { operatore, wc, data_ora_inizio, fase, odp } = mes;
-    await setCache(CACHE_KEY, { operatore, wc, data_ora_inizio, fase, odp });
+    const { operatore, wc, data_ora_inizio, fase, odp, um_cons, um_prod } = mes;
+    await setCache(CACHE_KEY, {
+      operatore,
+      wc,
+      data_ora_inizio,
+      fase,
+      odp,
+      um_cons,
+      um_prod,
+    });
     revalidatePath("/mes");
 
     return { success: true, error: "" };

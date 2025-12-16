@@ -29,6 +29,8 @@ export const MesFormGeneral = ({
     });
   };
 
+  console.log("selec", selected);
+
   return (
     <FieldGroup>
       <div className="flex items-center gap-2">
@@ -67,10 +69,10 @@ export const MesFormGeneral = ({
           <ComboBox
             items={wcs.map(wc => ({
               label: wc.descrizione,
-              value: wc.cod,
+              value: wc.cod.trim(),
             }))}
             placeholder="Seleziona WC"
-            value={selected?.wc ?? ""}
+            value={selected?.wc.trim() ?? ""}
             onChange={onWcChange}
           />
           <FieldError></FieldError>

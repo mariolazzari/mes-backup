@@ -12,4 +12,5 @@ export type ComboBoxProps = {
   placeholder: string;
   value: string;
   defaultValue: string;
+  required: boolean;
 }>;

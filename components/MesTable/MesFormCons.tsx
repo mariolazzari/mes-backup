@@ -79,11 +79,12 @@ export const MesFormCons = ({
           <ComboBox
             items={ums.map(um => ({
               label: um.descrizione,
-              value: um.cod,
+              value: um.cod.trim(),
             }))}
             placeholder="Unita di misura"
             value={selected?.um_cons ?? "MT"}
             onChange={onUmChange}
+            required
           />
           <FieldError></FieldError>
         </Field>

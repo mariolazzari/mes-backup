@@ -13,15 +13,19 @@ type MesPageProps = {
   searchParams: Promise<{
     page: number;
     size: number;
+    from: string;
+    to: string;
+    odp: string;
+    prodotto: string;
   }>;
 };
 
 async function MesPage({ searchParams }: MesPageProps) {
   // read search params
-  const { page = 1, size = 10 } = await searchParams;
+  const { page = 1, size = 10, from, to, odp, prodotto } = await searchParams;
   // load data
   const [{ prods, total }, wcs, scraps, ums, defaults] = await Promise.all([
-    getProds(page, size),
+    getProds(page, size, from, to, prodotto, odp),
     getWorkCenters(),
     getScraps(),
     getUms(),

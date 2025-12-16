@@ -97,6 +97,8 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
       emptyMes.fase = defaults?.fase ?? "0010";
       emptyMes.wc = defaults?.wc ?? "";
       emptyMes.odp = defaults?.odp ?? "";
+      emptyMes.um_cons = defaults?.um_cons ?? "MT";
+      emptyMes.um_prod = defaults?.um_prod ?? "MT";
       setSelected(emptyMes);
       setProd(true);
     }

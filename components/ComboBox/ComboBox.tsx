@@ -17,9 +17,15 @@ export const ComboBox = ({
   label,
   value,
   onChange,
+  required = false,
 }: ComboBoxProps) => {
   return (
-    <Select name={name} value={value} onValueChange={onChange}>
+    <Select
+      name={name}
+      value={value}
+      onValueChange={onChange}
+      required={required}
+    >
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
