@@ -10,6 +10,8 @@ import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { SearcDialog } from "./SearchDialog";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 
 export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
   const [selected, setSelected] = useState<Mes | undefined>(undefined);
@@ -53,18 +55,17 @@ export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
         <ColumnHeader column={column} title="Ordine Prod" />
       ),
       cell: ({ row }) => {
-        const { original } = row;
+        const { qta_prodotta, odp } = row.original;
 
         return (
-          <span
-            className={
-              original.prodotto.trim() !== ""
-                ? "text-green-700 font-semibold"
-                : "text-yellow-600 font-semibold"
-            }
+          <Badge
+            className={cn(
+              "font-semibold min-w-20",
+              qta_prodotta > 0 ? "bg-green-700" : "bg-yellow-600"
+            )}
           >
-            {original.odp}
-          </span>
+            {odp}
+          </Badge>
         );
       },
     },
