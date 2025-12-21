@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ColumnHeader, DataTable, OnPageChange } from "@/components/DataTable";
 import { Mes } from "@/types/Mes";
 import { formatDateTime } from "@/lib/date";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MesBar } from "./mes-bar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
@@ -111,6 +111,11 @@ export const MesTable = ({ mes, total, page, size }: Props) => {
 
     router.push(url);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSelected(undefined);
+  }, [mes]);
 
   return (
     <div className="w-full flex flex-col items-center xs:scale-75">
