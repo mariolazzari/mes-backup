@@ -12,12 +12,15 @@ import {
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
 import { initialActionState } from "@/types/ActionState";
-import { WcDeleteProps } from ".";
-import { DeleteButton } from "../Buttons/DeleteButton";
-import { CloseButton } from "../Buttons/CloseButton";
+import { DeleteButton, CloseButton } from "@/components/Buttons";
 import { deleteWorkCenter } from "@/actions/wc";
+import { WorkCenter } from "@/types";
 
-export function WcDelete({ wc }: WcDeleteProps) {
+type Props = {
+  wc: WorkCenter;
+};
+
+export function WcDelete({ wc }: Props) {
   const { cod, descrizione } = wc;
   const [state, formAction] = useActionState(
     deleteWorkCenter,
@@ -32,7 +35,7 @@ export function WcDelete({ wc }: WcDeleteProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-96">
         <form action={formAction}>
           <input type="hidden" name="cod" value={cod} />
 

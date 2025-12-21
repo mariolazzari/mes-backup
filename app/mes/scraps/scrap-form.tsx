@@ -10,16 +10,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit, Plus } from "lucide-react";
-import { SaveButton } from "../Buttons/SaveButton";
-import { CloseButton } from "../Buttons/CloseButton";
-import { ScrapFormProps } from ".";
+import { SaveButton, CloseButton } from "@/components/Buttons/";
 import { useActionState } from "react";
 import { initialActionState } from "@/types/ActionState";
-import { Input } from "../ui/input";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { saveScrap } from "@/actions/scrap";
+import { Scrap } from "@/types";
 
-export function ScrapForm({ scrap }: ScrapFormProps) {
+type Props = {
+  scrap?: Scrap;
+};
+
+export function ScrapForm({ scrap }: Props) {
   const [state, action] = useActionState(saveScrap, initialActionState);
 
   return (

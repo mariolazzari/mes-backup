@@ -9,16 +9,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MdSettingsBackupRestore } from "react-icons/md";
-import { CloseButton } from "../Buttons";
-import { RestoreButton } from "../Buttons/RestoreButton";
-import { RestoreDialogProps } from ".";
+import { MdDeleteForever } from "react-icons/md";
+import { CloseButton, DeleteButton } from "@/components/Buttons";
+import { deleteMes } from "@/actions/mes";
 import { useActionState } from "react";
-import { restoreMes } from "@/actions/mes";
-import { initialActionState } from "@/types";
+import { initialActionState, Mes } from "@/types";
 
-export function RestoreDialog({ mes, disabled }: RestoreDialogProps) {
-  const [state, formAction] = useActionState(restoreMes, initialActionState);
+type Props = {
+  mes?: Mes;
+  disabled?: boolean;
+};
+
+export function DeleteDialog({ mes, disabled }: Props) {
+  const [state, formAction] = useActionState(deleteMes, initialActionState);
 
   return (
     <Dialog key={mes?.odp}>
@@ -27,15 +30,16 @@ export function RestoreDialog({ mes, disabled }: RestoreDialogProps) {
           className="w-16 h-16 p-2 cursor-pointer"
           variant="outline"
           size="icon-lg"
-          disabled={disabled || !mes?.hold}
+          disabled={disabled || mes?.hold}
         >
-          <MdSettingsBackupRestore className="w-full! h-full!" />
+          <MdDeleteForever className="w-full! h-full!" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-xs md:w-md">
+
+      <DialogContent className="max-xs">
         <form action={formAction}>
           <DialogHeader>
-            <DialogTitle>Ripristina ODP</DialogTitle>
+            <DialogTitle>Elimina ODP</DialogTitle>
             <DialogDescription>
               {mes?.odp} - {mes?.prodotto}
             </DialogDescription>
@@ -43,22 +47,24 @@ export function RestoreDialog({ mes, disabled }: RestoreDialogProps) {
 
           <input type="hidden" name="id" defaultValue={mes?.id} />
 
-          <div className="h-24">
-            <p>
-              Sei sicuro di voler rirpistinare ordine di produzione
-              <span className="ml-1 font-bold">{mes?.odp}</span>?
+          <div className="h-12">
+            <p className="text-justify">
+              Sei sicuro di voler eliminare ordine di produzione
+              <span className="font-semibold ml-1">{mes?.odp}</span>?
             </p>
+
             {state.success && (
               <p>
-                Ordine di produzione
-                <span className="mx-1 font-bold">{mes?.odp}</span> ripristinato
+                Ordine di produzione{" "}
+                <span className="font-bold mx-1">{mes?.odp}</span> eliminato con
+                successo
               </p>
             )}
           </div>
 
           <DialogFooter>
             <CloseButton />
-            <RestoreButton />
+            <DeleteButton disabled={state.success} />
           </DialogFooter>
         </form>
       </DialogContent>

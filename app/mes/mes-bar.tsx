@@ -1,11 +1,16 @@
 "use client";
-import { ExcelDialog } from "../ExcelDialog";
-import { RestoreDialog } from "../RestoreDialog";
-import { DeleteDialog } from "../DeleteDialog";
-import { MesForm } from "../MesTable";
-import { MesBarProps } from ".";
+import { ExcelDialog } from "./dialogs/excel-dialog";
+import { RestoreDialog } from "./dialogs/restore-dialog";
+import { DeleteDialog } from "./dialogs/delete-dialog";
+import { MesForm } from "./form/mes-form";
+import { Mes } from "@/types";
 
-export const MesBar = ({ selected, disableActions }: MesBarProps) => {
+type Props = {
+  selected?: Mes;
+  disableActions: boolean;
+};
+
+export const MesBar = ({ selected, disableActions }: Props) => {
   return (
     <div className="flex xs:scale-75">
       <MesForm mode="insert" disabled={false} />

@@ -1,15 +1,22 @@
-import { MesFormGroupProps } from ".";
-import { ComboBox } from "../ComboBox/ComboBox";
-import { DatePicker, TimePicker } from "../Pickers";
-import { useMes } from "../Providers/MesProvider";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
+import { ComboBox } from "@/components/ComboBox/ComboBox";
+import { DatePicker, TimePicker } from "@/components/Pickers";
+import { useMes } from "@/components/Providers/MesProvider";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Mes } from "@/types";
 
-export const MesFormGeneral = ({
-  selected,
-  setSelected,
-  onChange,
-}: MesFormGroupProps) => {
+type Props = {
+  selected: Mes;
+  setSelected: (mes: Mes) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export const MesFormGeneral = ({ selected, setSelected, onChange }: Props) => {
   const { wcs } = useMes();
 
   const onWcChange = (wc: string) => {
@@ -28,8 +35,6 @@ export const MesFormGeneral = ({
       data_ora_inizio: date ?? new Date(),
     });
   };
-
-  console.log("selec", selected);
 
   return (
     <FieldGroup>
@@ -58,7 +63,7 @@ export const MesFormGeneral = ({
             className="border p-2 w-full rounded"
             id="operatore"
             name="operatore"
-            value={selected?.operatore.trim()}
+            value={selected?.operatore}
             onChange={onChange}
           />
           <FieldError></FieldError>
@@ -69,10 +74,10 @@ export const MesFormGeneral = ({
           <ComboBox
             items={wcs.map(wc => ({
               label: wc.descrizione,
-              value: wc.cod.trim(),
+              value: wc.cod,
             }))}
             placeholder="Seleziona WC"
-            value={selected?.wc.trim() ?? ""}
+            value={selected?.wc ?? ""}
             onChange={onWcChange}
           />
           <FieldError></FieldError>
@@ -85,7 +90,7 @@ export const MesFormGeneral = ({
           <Input
             id="odp"
             name="odp"
-            value={selected?.odp.trim() ?? ""}
+            value={selected?.odp ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
           />
@@ -97,9 +102,7 @@ export const MesFormGeneral = ({
           <Input
             id="fase"
             name="fase"
-            value={
-              selected?.fase.trim() === "" ? "0010" : selected?.fase.trim()
-            }
+            value={selected?.fase === "" ? "0010" : selected?.fase}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required

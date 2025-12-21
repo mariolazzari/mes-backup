@@ -1,13 +1,16 @@
 "use client";
-import { Um } from "@/types/Um";
 import { ColumnDef } from "@tanstack/react-table";
-import { UmForm } from "./UmForm";
-import { ColumnHeader, DataTable } from "../DataTable";
-import { UmTableProps } from ".";
-import { UmDelete } from "./UmDelete";
+import { WcForm } from "./wc-form";
+import { ColumnHeader, DataTable } from "@/components/DataTable";
+import { WcDelete } from "./wc-delete";
+import { WorkCenter } from "@/types";
 
-export const UmTable = ({ ums }: UmTableProps) => {
-  const columns: ColumnDef<Um>[] = [
+type Props = {
+  wcs: WorkCenter[];
+};
+
+export const WcTable = ({ wcs = [] }: Props) => {
+  const columns: ColumnDef<WorkCenter>[] = [
     {
       accessorKey: "actions",
       header: "",
@@ -16,8 +19,8 @@ export const UmTable = ({ ums }: UmTableProps) => {
 
         return (
           <div className="flex items-center gap-1">
-            <UmForm um={original} />
-            <UmDelete um={original} />
+            <WcForm wc={original} />
+            <WcDelete wc={original} />
           </div>
         );
       },
@@ -37,8 +40,8 @@ export const UmTable = ({ ums }: UmTableProps) => {
   return (
     <DataTable
       columns={columns}
-      data={ums}
-      add={<UmForm />}
+      data={wcs}
+      add={<WcForm />}
       searchField="descrizione"
       searchPlaceholder="Cerca descrizione..."
     />

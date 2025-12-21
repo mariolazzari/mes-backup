@@ -1,19 +1,25 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ColumnHeader, DataTable, OnPageChange } from "../DataTable";
-import { MesTableProps, SearchDialogArgs } from ".";
+import { ColumnHeader, DataTable, OnPageChange } from "@/components/DataTable";
 import { Mes } from "@/types/Mes";
 import { formatDateTime } from "@/lib/date";
 import { useState } from "react";
-import { MesBar } from "../MesBar";
-import { Checkbox } from "../ui/checkbox";
+import { MesBar } from "./mes-bar";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import { SearcDialog } from "./SearchDialog";
-import { Badge } from "../ui/badge";
+import { SearcDialog, SearchDialogArgs } from "./dialogs/search-dialog";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-export const MesTable = ({ mes, total, page, size }: MesTableProps) => {
+type Props = {
+  mes: Mes[];
+  total: number;
+  page: number;
+  size: number;
+};
+
+export const MesTable = ({ mes, total, page, size }: Props) => {
   const [selected, setSelected] = useState<Mes | undefined>(undefined);
   const router = useRouter();
 

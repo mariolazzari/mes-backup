@@ -1,4 +1,4 @@
-import { MesFormGroupProps } from ".";
+"use client";
 import {
   Field,
   FieldError,
@@ -6,15 +6,23 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ComboBox } from "../ComboBox/ComboBox";
-import { useMes } from "../Providers/MesProvider";
+import { ComboBox } from "@/components/ComboBox/ComboBox";
+import { useMes } from "@/components/Providers/MesProvider";
+import { Mes } from "@/types";
+
+type Props = {
+  selected: Mes;
+  setSelected: (mes: Mes) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  autoFocus?: keyof Mes;
+};
 
 export const MesFormCons = ({
   selected,
   setSelected,
   onChange,
   autoFocus,
-}: MesFormGroupProps) => {
+}: Props) => {
   const { ums } = useMes();
 
   const onUmChange = (um: string) => {
@@ -35,7 +43,7 @@ export const MesFormCons = ({
           <Input
             id="componente"
             name="componente"
-            value={selected?.componente.trim() ?? ""}
+            value={selected?.componente ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             autoFocus={autoFocus === "componente"}
@@ -68,7 +76,7 @@ export const MesFormCons = ({
             className="border p-2 w-full rounded"
             id="hu_comp"
             name="hu_comp"
-            value={selected?.hu_comp.trim() ?? ""}
+            value={selected?.hu_comp ?? ""}
             onChange={onChange}
           />
           <FieldError></FieldError>
@@ -79,7 +87,7 @@ export const MesFormCons = ({
           <ComboBox
             items={ums.map(um => ({
               label: um.descrizione,
-              value: um.cod.trim(),
+              value: um.cod,
             }))}
             placeholder="Unita di misura"
             value={selected?.um_cons ?? "MT"}

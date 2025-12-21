@@ -16,20 +16,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { emptyMes, MesFormProps } from ".";
 import { MdAddTask, MdEdit, MdCyclone } from "react-icons/md";
-import { CloseButton, SaveButton } from "../Buttons";
-import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
+import { CloseButton, SaveButton } from "@/components/Buttons";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Mes } from "@/types";
-import { MesFormGeneral } from "./MesFormGeneral";
+import { emptyMes, Mes } from "@/types";
+import { MesFormGeneral } from "./mes-form-general";
 import { saveMes } from "@/actions/mes";
-import { MesFormProd } from "./MesFormProd";
-import { MesFormCons } from "./MesFormCons";
-import { useMes } from "../Providers/MesProvider";
+import { MesFormProd } from "./mes-form-prod";
+import { MesFormCons } from "./mes-form-cons";
+import { useMes } from "@/components/Providers/MesProvider";
 
-export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
+type Props = {
+  mode: "insert" | "update" | "clone";
+  mes?: Mes;
+  disabled?: boolean;
+};
+
+export function MesForm({ mode, mes, disabled = false }: Props) {
   const initialSelected =
     mode === "insert"
       ? emptyMes
@@ -84,12 +89,12 @@ export function MesForm({ mode, mes, disabled = false }: MesFormProps) {
     if (mode === "update" && mes) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelected(mes);
-      setProd(mes.prodotto.trim() !== "");
+      setProd(mes.prodotto !== "");
     }
 
     if (mode === "clone" && mes) {
       setSelected({ ...mes, id: -1 });
-      setProd(mes.prodotto.trim() !== "");
+      setProd(mes.prodotto !== "");
     }
 
     if (mode === "insert") {

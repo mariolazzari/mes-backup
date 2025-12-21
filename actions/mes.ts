@@ -10,9 +10,9 @@ import { FormAction } from "@/types";
 import { Mes } from "@/types/Mes";
 import { revalidatePath } from "next/cache";
 import { endOfToday, startOfToday } from "date-fns";
-import { setCache } from "@/lib/cache";
+//import { setCache } from "@/lib/cache";
 
-const CACHE_KEY = "mes:last";
+//const CACHE_KEY = "mes:last";
 
 export const getProds = async (
   page = 1,
@@ -53,15 +53,6 @@ export const getProds = async (
   const whereClause = conditions.length
     ? `WHERE ${conditions.join(" AND ")}`
     : "";
-
-  console.log(`
-      SELECT *
-      FROM prod
-      ${whereClause}
-      ORDER BY id DESC
-      LIMIT $${params.length + 1}
-      OFFSET $${params.length + 2}
-      `);
 
   const [prods, totals] = await Promise.all([
     query<Mes>(
@@ -207,16 +198,16 @@ export const saveMes = async (mes: Mes) => {
     }
 
     // save last defaults
-    const { operatore, wc, data_ora_inizio, fase, odp, um_cons, um_prod } = mes;
-    await setCache(CACHE_KEY, {
-      operatore,
-      wc,
-      data_ora_inizio,
-      fase,
-      odp,
-      um_cons,
-      um_prod,
-    });
+    // const { operatore, wc, data_ora_inizio, fase, odp, um_cons, um_prod } = mes;
+    // await setCache(CACHE_KEY, {
+    //   operatore,
+    //   wc,
+    //   data_ora_inizio,
+    //   fase,
+    //   odp,
+    //   um_cons,
+    //   um_prod,
+    // });
     revalidatePath("/mes");
 
     return { success: true, error: "" };

@@ -8,17 +8,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CloseButton } from "../Buttons";
-import { DateTimePicker } from "../Pickers";
+import { CloseButton } from "@/components/Buttons";
+import { DateTimePicker } from "@/components/Pickers";
 import { startOfToday, endOfToday } from "date-fns";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { SearchDialogProps } from ".";
-import { Field, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
-export function SearcDialog({ onSearchClick }: SearchDialogProps) {
+export type SearchDialogArgs = Partial<{
+  from: string;
+  to: string;
+  odp: string;
+  prodotto: string;
+}>;
+
+type Props = {
+  onSearchClick: (e: SearchDialogArgs) => void;
+};
+
+export function SearcDialog({ onSearchClick }: Props) {
   const [from, setFrom] = useState<Date | undefined>(startOfToday());
   const [to, setTo] = useState<Date | undefined>(endOfToday());
   const [odp, setOdp] = useState("");

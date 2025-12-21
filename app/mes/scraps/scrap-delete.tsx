@@ -10,16 +10,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
-import { deleteUm } from "@/actions/um";
 import { initialActionState } from "@/types/ActionState";
-import { UmDeleteProps } from ".";
-import { DeleteButton } from "../Buttons/DeleteButton";
-import { CloseButton } from "../Buttons/CloseButton";
+import { DeleteButton, CloseButton } from "@/components/Buttons";
 import { useActionState } from "react";
+import { deleteScrap } from "@/actions/scrap";
+import { Scrap } from "@/types";
 
-export function UmDelete({ um }: UmDeleteProps) {
-  const { cod, descrizione } = um;
-  const [state, formAction] = useActionState(deleteUm, initialActionState);
+type Props = {
+  scrap: Scrap;
+};
+
+export function ScrapDelete({ scrap }: Props) {
+  const { cod, descrizione } = scrap;
+  const [state, formAction] = useActionState(deleteScrap, initialActionState);
 
   return (
     <Dialog>
@@ -29,16 +32,15 @@ export function UmDelete({ um }: UmDeleteProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-96">
         <form action={formAction}>
-          {/* Hidden input for um id to delete */}
           <input type="hidden" name="cod" value={cod} />
 
           <DialogHeader>
             <DialogTitle>Elimina {cod}</DialogTitle>
             <DialogDescription>
-              Sei sicuro di voler eliminare l’unità di misura:{" "}
-              <b>{descrizione}</b>?
+              Sei sicuro di voler eliminare la causale di scarto
+              <span className="ml-1 font-semibold">{descrizione}</span>?
             </DialogDescription>
           </DialogHeader>
 

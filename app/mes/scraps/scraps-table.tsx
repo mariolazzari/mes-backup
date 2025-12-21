@@ -1,12 +1,15 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ColumnHeader, DataTable } from "../DataTable";
-import { ScrapTableProps } from ".";
 import { Scrap } from "@/types/Scrap";
-import { ScrapForm } from "./ScrapForm";
-import { ScrapDelete } from "./ScrapDelete";
+import { ScrapForm } from "./scrap-form";
+import { ScrapDelete } from "./scrap-delete";
+import { ColumnHeader, DataTable } from "@/components/DataTable";
 
-export const ScrapTable = ({ scraps }: ScrapTableProps) => {
+type Props = {
+  scraps: Scrap[];
+};
+
+export const ScrapsTable = ({ scraps = [] }: Props) => {
   const columns: ColumnDef<Scrap>[] = [
     {
       accessorKey: "actions",

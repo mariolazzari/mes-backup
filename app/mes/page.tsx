@@ -2,7 +2,7 @@ import { getProds } from "@/actions/mes";
 import { getScraps } from "@/actions/scrap";
 import { getUms } from "@/actions/um";
 import { getWorkCenters } from "@/actions/wc";
-import { MesTable } from "@/components/MesTable/MesTable";
+import { MesTable } from "./mes-table";
 import { MesProvider } from "@/components/Providers/MesProvider";
 import { getCache } from "@/lib/cache";
 import { Mes } from "@/types";

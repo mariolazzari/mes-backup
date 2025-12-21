@@ -1,5 +1,5 @@
 import { getUms } from "@/actions/um";
-import { UmTable } from "@/components/UmTable";
+import { UmTable } from "./um-table";
 
 export const dynamic = "force-dynamic";
 

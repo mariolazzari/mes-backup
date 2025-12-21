@@ -11,15 +11,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit, Plus } from "lucide-react";
-import { SaveButton } from "../Buttons/SaveButton";
-import { CloseButton } from "../Buttons/CloseButton";
-import { UmDialogProps } from ".";
+import { SaveButton, CloseButton } from "@/components/Buttons";
 import { useActionState } from "react";
 import { initialActionState } from "@/types/ActionState";
-import { Input } from "../ui/input";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Um } from "@/types";
 
-export function UmForm({ um }: UmDialogProps) {
+type Props = {
+  um?: Um;
+};
+
+export function UmForm({ um }: Props) {
   const [state, action] = useActionState(saveUm, initialActionState);
 
   return (

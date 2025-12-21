@@ -21,3 +21,27 @@ export type Mes = {
   qta_cons: number;
   hold: boolean;
 };
+
+export const emptyMes: Mes = {
+  id: -1,
+  odp: "",
+  operatore: "",
+  wc: "",
+  fase: "",
+  prodotto: "",
+  um_prod: "MT",
+  qta_prodotta: 0,
+  nr_fili: 0,
+  hu_prod_ok: "",
+  qta_scartata: 0,
+  hu_scarto: "",
+  cod_scarto: "",
+  data_ora_inizio: new Date(),
+  data_ora_fine: new Date(),
+  componente: "",
+  hu_comp: "",
+  flag_hu_comp: "",
+  um_cons: "MT",
+  qta_cons: 0,
+  hold: false,
+};

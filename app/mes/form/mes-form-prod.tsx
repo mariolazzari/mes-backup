@@ -1,19 +1,31 @@
 "use client";
-import { MesFormGroupProps } from ".";
-import { ComboBox } from "../ComboBox/ComboBox";
-import { TimePicker } from "../Pickers";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { ComboBox } from "@/components/ComboBox/ComboBox";
+import { TimePicker } from "@/components/Pickers";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { formatHoursAndMinutes } from "@/lib/date";
-import { Badge } from "../ui/badge";
-import { useMes } from "../Providers/MesProvider";
+import { Badge } from "@/components/ui/badge";
+import { useMes } from "@/components/Providers/MesProvider";
+import { Mes } from "@/types";
+
+type Props = {
+  selected: Mes;
+  setSelected: (mes: Mes) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  autoFocus?: "qta_prodotta" | undefined;
+};
 
 export const MesFormProd = ({
   selected,
   setSelected,
   onChange,
   autoFocus,
-}: MesFormGroupProps) => {
+}: Props) => {
   const { scraps, ums } = useMes();
 
   const onScrapChange = (cod_scarto: string) => {
@@ -55,7 +67,7 @@ export const MesFormProd = ({
           <Input
             id="prodotto"
             name="prodotto"
-            value={selected?.prodotto.trim() ?? ""}
+            value={selected?.prodotto ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required
@@ -87,7 +99,7 @@ export const MesFormProd = ({
           <Input
             id="hu_comp"
             name="hu_comp"
-            value={selected?.hu_comp.trim() ?? ""}
+            value={selected?.hu_comp ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
             required
@@ -117,7 +129,7 @@ export const MesFormProd = ({
           <Input
             id="hu_scarto"
             name="hu_scarto"
-            value={selected?.hu_scarto.trim() ?? ""}
+            value={selected?.hu_scarto ?? ""}
             onChange={onChange}
             className="border p-2 w-full rounded"
           />
@@ -129,7 +141,7 @@ export const MesFormProd = ({
           <ComboBox
             items={scraps.map(sc => ({
               label: sc.descrizione,
-              value: sc.cod.trim(),
+              value: sc.cod,
             }))}
             placeholder="Causale scarto"
             value={selected?.cod_scarto}
@@ -145,7 +157,7 @@ export const MesFormProd = ({
           <ComboBox
             items={ums.map(um => ({
               label: um.descrizione,
-              value: um.cod.trim(),
+              value: um.cod,
             }))}
             placeholder="Unita di misura"
             value={selected?.um_prod}

@@ -1,5 +1,5 @@
 import { getWorkCenters } from "@/actions/wc";
-import { WcTable } from "@/components/WcTable";
+import { WcTable } from "./wc-table";
 
 export const dynamic = "force-dynamic";
 

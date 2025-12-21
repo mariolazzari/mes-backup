@@ -10,16 +10,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit, Plus } from "lucide-react";
-import { SaveButton } from "../Buttons/SaveButton";
-import { CloseButton } from "../Buttons/CloseButton";
-import { WcDialogProps } from ".";
+import { SaveButton, CloseButton } from "@/components/Buttons";
 import { useActionState } from "react";
 import { initialActionState } from "@/types/ActionState";
-import { Input } from "../ui/input";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { saveWorkCenter } from "@/actions/wc";
+import { WorkCenter } from "@/types";
 
-export function WcForm({ wc }: WcDialogProps) {
+type Props = {
+  wc?: WorkCenter;
+};
+
+export function WcForm({ wc }: Props) {
   const [state, action] = useActionState(saveWorkCenter, initialActionState);
 
   return (
