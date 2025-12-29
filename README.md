@@ -1,5 +1,62 @@
 # mes-backup
 
+## Server Ubuntu
+
+### NodeJS
+
+```sh
+# apt
+apt update
+apt install -y curl build-essential
+# nvm
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm --version
+nvm i 24
+# pnpm
+npm install -g pnpm
+# pm2
+pnpm add -g pm2
+pm2 startup
+pm2 save
+```
+
+### PostgreSQL
+
+```sh
+apt update
+apt upgrade -y
+# postgres
+apt install curl ca-certificates
+install -d /usr/share/postgresql-common/pgdg
+curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+. /etc/os-release
+sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+apt update
+install postgresql-18
+# service
+systemctl start postgresql
+systemctl status postgresql
+```
+
+### Redis
+
+```sh
+apt update
+apt install -y lsb-release curl gpg
+# Redis
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+apt update
+apt install -y redis
+# service
+systemctl enable redis-server
+systemctl start redis-server
+systemctl status redis-server
+redis-cli ping
+```
+
 ## Database
 
 ### Utenti
