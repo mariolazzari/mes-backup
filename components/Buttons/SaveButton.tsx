@@ -11,7 +11,7 @@ export function SaveButton(props: ComponentProps<"button">) {
   return (
     <DialogClose>
       <Button
-        className="w-24 cursor-pointer"
+        className="w-28 cursor-pointer"
         type="submit"
         disabled={pending}
         {...props}

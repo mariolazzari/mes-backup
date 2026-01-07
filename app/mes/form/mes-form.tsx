@@ -122,7 +122,7 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="w-[90vw] max-h-[80vh]  lg:max-h-[95vh] overflow-y-auto md:w-96 lg:w-lg xl:w-xl">
+      <DialogContent className="w-[90vw] max-h-[70dvh]  lg:max-h-[95vh] overflow-y-auto md:w-96 lg:w-lg xl:w-xl">
         <form onSubmit={onFormSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -171,10 +171,9 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
               />
             )}
           </div>
-
-          <DialogFooter className="mt-4 flex">
-            <CloseButton />
-            <SaveButton />
+          <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-end mt-2">
+            <CloseButton className="w-full sm:w-auto" />
+            <SaveButton className="w-full sm:w-auto" />
           </DialogFooter>
         </form>
       </DialogContent>
