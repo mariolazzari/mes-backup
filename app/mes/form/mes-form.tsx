@@ -172,7 +172,7 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
             )}
           </div>
 
-          <DialogFooter className="mt-4">
+          <DialogFooter className="mt-4 flex">
             <CloseButton />
             <SaveButton />
           </DialogFooter>

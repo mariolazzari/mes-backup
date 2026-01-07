@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 export function CloseButton() {
   return (
     <DialogClose asChild>
-      <Button className="w-28 cursor-pointer" variant="outline">
+      <Button className="w-24 cursor-pointer" variant="outline">
         <X /> Chiudi
       </Button>
     </DialogClose>
