@@ -30,7 +30,7 @@ export function TimePicker({
         {label}
       </Label>
       <Input
-        className="bg-background w-24"
+        className="bg-background w-28"
         id="time-picker"
         type="time"
         step="60"

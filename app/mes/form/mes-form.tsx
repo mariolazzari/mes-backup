@@ -122,7 +122,7 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="w-[90vw] max-h-[70dvh]  lg:max-h-[95vh] overflow-y-auto md:w-96 lg:w-lg xl:w-xl">
+      <DialogContent className="max-w-xl max-h-[70dvh]  lg:max-h-[95vh] overflow-y-auto md:w-96 lg:w-lg xl:w-xl">
         <form onSubmit={onFormSubmit}>
           <DialogHeader>
             <DialogTitle>

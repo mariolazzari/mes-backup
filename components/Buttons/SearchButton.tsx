@@ -3,13 +3,17 @@ import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { RefreshCcw, Search } from "lucide-react";
 import { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
 
-export function SearchButton(props: ComponentProps<"button">) {
+export function SearchButton({
+  className,
+  ...props
+}: ComponentProps<"button">) {
   const { pending } = useFormStatus();
 
   return (
     <Button
-      className="w-28 cursor-pointer"
+      className={(cn("w-full md:w-28 cursor-pointer"), className)}
       type="submit"
       disabled={pending}
       {...props}

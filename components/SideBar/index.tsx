@@ -42,7 +42,7 @@ const items = [
 
 export function SideBar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <div className="flex justify-center py-8">
           <Image className="h-auto w-auto" src={Logo} alt="ICC logo" priority />
