@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Mes } from "@/types";
+import { useState } from "react";
 
 type Props = {
   selected: Mes;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export const MesFormGeneral = ({ selected, setSelected, onChange }: Props) => {
+  const [wcError, setWcError] = useState("");
   const { wcs } = useMes();
 
   const onWcChange = (wc: string) => {
@@ -24,6 +26,12 @@ export const MesFormGeneral = ({ selected, setSelected, onChange }: Props) => {
       return;
     }
     setSelected({ ...selected, wc });
+
+    if (wc) {
+      setWcError("");
+    } else {
+      setWcError("Work center obbligatorio");
+    }
   };
 
   const onDateChange = (date: Date | undefined) => {
@@ -80,7 +88,7 @@ export const MesFormGeneral = ({ selected, setSelected, onChange }: Props) => {
             value={selected?.wc ?? ""}
             onChange={onWcChange}
           />
-          <FieldError></FieldError>
+          {wcError && <FieldError>{wcError}</FieldError>}
         </Field>
       </div>
 

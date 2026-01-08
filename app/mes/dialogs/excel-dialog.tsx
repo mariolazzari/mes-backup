@@ -77,7 +77,7 @@ export function ExcelDialog() {
 
     // file name
     const fromStr = from.toISOString().split("T")[0];
-    const toStr = from.toISOString().split("T")[0];
+    const toStr = to.toISOString().split("T")[0];
     XLSX.writeFile(wb, `mes_${fromStr}_${toStr}.xlsx`);
   };
 

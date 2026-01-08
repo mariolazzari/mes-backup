@@ -122,7 +122,7 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-xl max-h-[70dvh]  lg:max-h-[95vh] overflow-y-auto md:w-96 lg:w-lg xl:w-xl">
+      <DialogContent className="max-w-xl lg:max-h-[95vh] md:w-96 lg:w-lg xl:w-xl">
         <form onSubmit={onFormSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -148,7 +148,7 @@ export function MesForm({ mode, mes, disabled = false }: Props) {
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 max-h-[50dvh]  overflow-y-auto">
             <MesFormGeneral
               selected={selected}
               setSelected={setSelected}
