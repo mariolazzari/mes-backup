@@ -1,0 +1,50 @@
+services:
+  app:
+    build:
+      context: .
+      # Usiamo un target specifico se nel Dockerfile hai più stage
+      # altrimenti usa semplicemente il build base
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "4040:4040"
+    environment:
+      - DATABASE_URL=postgres://user:password@postgres:5432/mes_db
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: npm run dev
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mes_db
+    ports:
+      - "5432:5432" # Esposto per poter usare client come pgAdmin o DBeaver
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mes_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379" # Esposto per debugging con redis-cli
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
