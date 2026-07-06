@@ -6,9 +6,15 @@ services:
     environment:
       - DATABASE_URL=postgres://user:password@postgres:5432/mes_db
       - REDIS_URL=redis://redis:6379
+      - TZ=Europe/Rome # Forza la timezone corretta
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: always
 
   postgres:
@@ -17,20 +23,34 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mes_db
+      TZ: Europe/Rome
     volumes:
       - pgdata:/var/lib/postgresql
       - ./init:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d mes_db"]
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: always # Buona pratica aggiungerlo anche qui
 
   redis:
     image: redis:8-alpine
     command: ["redis-server", "--appendonly", "yes"]
+    environment:
+      - TZ=Europe/Rome
     volumes:
       - redisdata:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
 
 volumes:
   pgdata:
